@@ -1,0 +1,409 @@
+{
+  "progName": "Sylvia-IoT Simple Router",
+
+  "signin": "Sign-In",
+  "signout": "Sign-Out",
+
+  "menu": {
+    "title": "Menu",
+    "home": "Home",
+    "sylviaCore": "Sylvia Core",
+    "sylviaData": "Sylvia Data",
+    "sylviaRouter": "Router Settings",
+    "networkManagement": "Network Management",
+    "applicationManagement": "Application Management",
+    "settings": "Settings",
+    "about": "About",
+
+    "sylvia": {
+      "user": "User",
+      "client": "Client",
+      "unit": "Unit",
+      "application": "Application",
+      "network": "Network",
+      "device": "Device",
+      "deviceRoute": "Device Route",
+      "networkRoute": "Network Route",
+      "dlDataBuffer": "Downlink Data Buffer"
+    },
+
+    "data": {
+      "application": "Application",
+      "network": "Network",
+      "operation": "Operations"
+    },
+
+    "router": {
+      "wan": "WAN",
+      "lan": "LAN",
+      "wlan": "Wireless LAN",
+      "wwan": "Wireless WAN"
+    },
+
+    "network": {
+      "loraIfroglab": "iFrogLab LoRa"
+    },
+
+    "application": {
+      "appDemo": "Demo App"
+    }
+  },
+
+  "settings": {
+    "language": "Language"
+  },
+
+  "language": {
+    "en-us": "English",
+    "zh-tw": "正體中文"
+  },
+
+  "buttons": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "detail": "Detail",
+    "refresh": "Refresh",
+    "stats": "Statistics",
+    "sendData": "Send data",
+    "send": "Send",
+    "apply": "Apply",
+    "connect": "Connect",
+    "disconnect": "Disconnect"
+  },
+
+  "messages": {
+    "success": "Success"
+  },
+
+  "roles": {
+    "admin": "Administrator",
+    "manager": "Manager",
+    "dev": "Developer",
+    "user": "User"
+  },
+
+  "types": {
+    "string": "String",
+    "hex": "Hexadecimal"
+  },
+
+  "user": {
+    "filter": "Filter account",
+    "titleAdd": "Create an account",
+    "titleEdit": "Edit an account",
+    "titleDelete": "Delete an account",
+    "titleDetail": "Detail information",
+    "userId": "User ID",
+    "account": "Account",
+    "password": "Password",
+    "roles": "Roles",
+    "name": "Display name",
+    "info": "Extra information (JSON)",
+    "deleteText": "The following account will be deleted. Do you confirm it?"
+  },
+
+  "client": {
+    "titleAdd": "Create a client",
+    "titleEdit": "Edit a client",
+    "titleDelete": "Delete a client",
+    "titleDetail": "Detail information",
+    "public": "Public",
+    "private": "Private",
+    "clientId": "Client ID",
+    "clientSecret": "Client secret",
+    "redirectUris": "Redirect URIs",
+    "scopes": "Scopes",
+    "user": "Developer account",
+    "name": "Display name",
+    "image": "Image URI",
+    "createSecret": "Create secret for private client",
+    "regenSecret": "Regenerate secret",
+    "deleteText": "The following client will be deleted. Do you confirm it?"
+  },
+
+  "unit": {
+    "filter": "Filter unit (code)",
+    "titleAdd": "Create a unit",
+    "titleEdit": "Edit a unit",
+    "titleDelete": "Delete a unit",
+    "titleDetail": "Detail information",
+    "unitId": "Unit ID",
+    "code": "Unit code",
+    "owner": "Unit owner",
+    "members": "Members",
+    "name": "Display name",
+    "info": "Extra information (JSON)",
+    "deleteText": "The following unit will be deleted. Do you confirm it?"
+  },
+
+  "application": {
+    "filter": "Filter application (code)",
+    "selectAllUnits": "All units",
+    "titleAdd": "Create an application",
+    "titleEdit": "Edit an application",
+    "titleDelete": "Delete an application",
+    "titleDetail": "Detail information",
+    "titleStats": "Queue statistics",
+    "titleSendData": "Send downlink data (to device)",
+    "statsQueue": "Queue",
+    "statsConsumers": "Consumers",
+    "statsMessages": "Messages",
+    "statsPublishRate": "Publish rate (msg/s)",
+    "statsDeliverRate": "Deliver rate (msg/s)",
+    "sendDevice": "Target device",
+    "sendPayload": "Payload",
+    "sendPayloadType": "Payload type",
+    "applicationId": "Application ID",
+    "code": "Application code",
+    "unit": "Unit",
+    "host": "Host address",
+    "protocol": "Protocol",
+    "ttl": "Message TTL (ms)",
+    "length": "Queue length",
+    "password": "Queue password",
+    "name": "Display name",
+    "info": "Extra information (JSON)",
+    "deleteText": "The following application will be deleted. Do you confirm it?"
+  },
+
+  "network": {
+    "filter": "Filter network (code)",
+    "selectAllUnits": "All units",
+    "titleAdd": "Create an network",
+    "titleEdit": "Edit an network",
+    "titleDelete": "Delete an network",
+    "titleDetail": "Detail information",
+    "titleStats": "Queue statistics",
+    "titleSendData": "Send uplink data (to application)",
+    "statsQueue": "Queue",
+    "statsConsumers": "Consumers",
+    "statsMessages": "Messages",
+    "statsPublishRate": "Publish rate (msg/s)",
+    "statsDeliverRate": "Deliver rate (msg/s)",
+    "sendDevice": "Target device",
+    "sendPayload": "Payload",
+    "sendPayloadType": "Payload type",
+    "networkId": "Network ID",
+    "code": "Network code",
+    "unit": "Unit",
+    "host": "Host address",
+    "protocol": "Protocol",
+    "ttl": "Message TTL (ms)",
+    "length": "Queue length",
+    "password": "Queue password",
+    "name": "Display name",
+    "info": "Extra information (JSON)",
+    "deleteText": "The following network will be deleted. Do you confirm it?"
+  },
+
+  "device": {
+    "filter": "Filter device (name)",
+    "selectAllUnits": "All units",
+    "titleAdd": "Create a device",
+    "titleEdit": "Edit a device",
+    "titleDelete": "Delete a device",
+    "titleDetail": "Detail information",
+    "deviceId": "Device ID",
+    "unitId": "Unit ID",
+    "unitCode": "Unit code",
+    "networkId": "Network ID",
+    "networkCode": "Network code",
+    "networkAddr": "Network address",
+    "unit": "Unit",
+    "network": "Network",
+    "name": "Display name",
+    "info": "Extra information (JSON)",
+    "deleteText": "The following device will be deleted. Do you confirm it?"
+  },
+
+  "deviceRoute": {
+    "selectAllUnits": "All units",
+    "titleAdd": "Create a device route",
+    "titleDelete": "Delete a device route",
+    "routeId": "Device route ID",
+    "unitId": "Unit ID",
+    "applicationId": "Application ID",
+    "applicationCode": "Application code",
+    "deviceId": "Device ID",
+    "networkId": "Network ID",
+    "networkCode": "Network code",
+    "networkAddr": "Network address",
+    "unit": "Unit",
+    "network": "Network",
+    "address": "Address",
+    "application": "Application",
+    "device": "Device",
+    "deleteText": "The following device route will be deleted. Do you confirm it?"
+  },
+
+  "networkRoute": {
+    "selectAllUnits": "All units",
+    "titleAdd": "Create a network route",
+    "titleDelete": "Delete a network route",
+    "routeId": "Network route ID",
+    "unitId": "Unit ID",
+    "applicationId": "Application ID",
+    "applicationCode": "Application code",
+    "networkId": "Network ID",
+    "networkCode": "Network code",
+    "unit": "Unit",
+    "network": "Network",
+    "application": "Application",
+    "deleteText": "The following network route will be deleted. Do you confirm it?"
+  },
+
+  "dldataBuffer": {
+    "selectAllUnits": "All units",
+    "titleDelete": "Delete a dldata buffer",
+    "dataId": "Data ID",
+    "unitId": "Unit ID",
+    "applicationId": "Application ID",
+    "applicationCode": "Application code",
+    "deviceId": "Device ID",
+    "networkId": "Network ID",
+    "unit": "Unit",
+    "network": "Network",
+    "address": "Address",
+    "application": "Application",
+    "device": "Device",
+    "deleteText": "The following dldata buffer will be deleted. Do you confirm it?"
+  },
+
+  "data": {
+    "selectAllUnits": "All units",
+    "formatHex": "Hex",
+    "formatText": "Text",
+
+    "tabUldata": "Uplink",
+    "tabDldata": "Downlink",
+
+    "proc": "Process",
+    "pub": "Publish",
+    "resp": "Response",
+    "time": "Device Time",
+    "status": "Status",
+    "network": "Network unit/code",
+    "addr": "Address",
+    "device": "Device",
+    "unit": "Unit",
+    "data": "Data",
+    "extension": "Extension",
+
+    "reqTime": "Request Time",
+    "resTime": "Response Time",
+    "latency": "Latency (ms)",
+    "statusCode": "Status Code",
+    "sourceIp": "Source IP",
+    "method": "Method",
+    "path": "Path",
+    "body": "Body",
+    "user": "User",
+    "client": "Client",
+    "errCode": "Error Code",
+    "errMessage": "Error Message"
+  },
+
+  "router": {
+    "systemUsage": "System Resource Usage",
+    "showLogicalCpu": "Logical Processors",
+    "cpu": "CPU",
+    "memory": "Memory",
+    "disk": "Disk",
+
+    "titleEditWan": "Edit WAN",
+    "titleEditLan": "Edit LAN",
+    "titleEditWlan": "Edit WLAN",
+    "titleEditWwan": "Edit WWAN",
+    "titleConnect": "Connect to",
+    "wanType": "Type",
+    "typeDisable": "Disable",
+    "typeDhcp": "DHCP",
+    "typePppoe": "PPPoE",
+    "typeStatic": "Static",
+    "ipv4settings": "IPv4 Settings",
+    "curSettings": "Current Settings",
+    "curStatus": "Current Status",
+    "apList": "Available AP List",
+    "ip4addr": "Host IPv4 address",
+    "ip4gw": "Gateway IPv4 address",
+    "ip4dns": "DNS IPv4 addresses",
+    "username": "User name",
+    "password": "Password",
+    "dhcpStart": "DHCP start address",
+    "dhcpEnd": "DHCP end address",
+    "leaseTime": "DHCP lease time (seconds)",
+    "netStatus": "Internet Status",
+    "leaseIp": "IP Address",
+    "leaseStarts": "Start Time",
+    "leaseEnds": "End Time",
+    "leaseMac": "MAC Address",
+    "leaseClient": "Client",
+    "status": "Status",
+    "statusEnabled": "Enabled",
+    "statusDisabled": "Disabled",
+    "ssid": "SSID",
+    "channel": "Channel",
+    "showPassword": "Show password"
+  },
+
+  "loraIfroglab": {
+    "tabUldata": "Uplink",
+    "tabDldata": "Downlink",
+    "tabQueue": "Queued",
+
+    "time": "Time",
+    "pub": "Publish",
+    "sent": "Sent",
+    "nodeId": "Node ID",
+    "data": "Data",
+    "rssi": "RSSI"
+  },
+
+  "appDemo": {
+    "tabGauge": "Gauge",
+    "tabUldata": "Uplink",
+    "tabDldata": "Downlink",
+    "titleSendData": "Send downlink data (to device)",
+    "sendPayload": "Payload",
+    "sendPayloadType": "Payload type",
+
+    "time": "Time",
+    "pub": "Publish",
+    "networkCode": "Network code",
+    "networkAddr": "Network address",
+    "data": "Data",
+    "rssi": "RSSI",
+    "error": "Error",
+    "message": "Detail message"
+  },
+
+  "apiError": {
+    "err_auth": "Authorization error. Re-login again.",
+    "err_db": "Database error. Please try again.",
+    "err_int_msg": "Internal message exchange error. Please try again.",
+    "err_not_found": "The request resource does not exist.",
+    "err_param": "Request parameters error.",
+    "err_perm": "Do not have permission to access.",
+    "err_rsc": "Allocate resource error. Please try again.",
+    "err_unknown": "Unknow error. Please contact to the system administrators.",
+    "err_auth_user_exist": "The user account has been used.",
+    "err_auth_user_not_exist": "The user does not exist.",
+    "err_broker_application_exist": "The application code has been used.",
+    "err_broker_application_not_exist": "The application does not exist.",
+    "err_broker_device_not_exist": "The device does not exist.",
+    "err_broker_member_not_exist": "The member user does not exist.",
+    "err_broker_network_addr_exist": "The network address has been used.",
+    "err_broker_network_exist": "The network code has been used.",
+    "err_broker_network_not_exist": "The network does not exist.",
+    "err_broker_owner_not_exist": "The owner user does not exist.",
+    "err_broker_route_exist": "The routing rule has been used.",
+    "err_broker_unit_exist": "The unit has been used.",
+    "err_broker_unit_not_exist": "The unit does not exist.",
+    "err_broker_unit_not_match": "The unit of the device and the application does not match.",
+    "err_xhr_network": "Network error. Please check the network connection.",
+    "err_xhr_unknown": "Unknown network error."
+  }
+}

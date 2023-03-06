@@ -1,0 +1,409 @@
+{
+  "progName": "Sylvia-IoT 簡易路由器",
+
+  "signin": "登入",
+  "signout": "登出",
+
+  "menu": {
+    "title": "選單",
+    "home": "首頁",
+    "sylviaCore": "Sylvia 核心",
+    "sylviaData": "Sylvia 資料",
+    "sylviaRouter": "路由器設定",
+    "networkManagement": "網路管理",
+    "applicationManagement": "應用管理",
+    "settings": "設定",
+    "about": "關於",
+
+    "sylvia": {
+      "user": "帳號",
+      "client": "客戶端",
+      "unit": "組織單位",
+      "application": "應用",
+      "network": "網路",
+      "device": "裝置",
+      "deviceRoute": "裝置路由",
+      "networkRoute": "網路路由",
+      "dlDataBuffer": "下行資料"
+    },
+
+    "data": {
+      "application": "應用程式",
+      "network": "網路系統",
+      "operation": "操作紀錄"
+    },
+
+    "router": {
+      "wan": "外部網路 (WAN)",
+      "lan": "區域連線 (LAN)",
+      "wlan": "無線區域連線 (LAN)",
+      "wwan": "無線外部網路 (WAN)"
+    },
+
+    "network": {
+      "loraIfroglab": "iFrogLab LoRa"
+    },
+
+    "application": {
+      "appDemo": "展示應用"
+    }
+  },
+
+  "settings": {
+    "language": "語言"
+  },
+
+  "language": {
+    "en-us": "English",
+    "zh-tw": "正體中文"
+  },
+
+  "buttons": {
+    "ok": "確定",
+    "cancel": "取消",
+    "add": "新增",
+    "edit": "編輯",
+    "delete": "刪除",
+    "detail": "詳細資料",
+    "refresh": "更新",
+    "stats": "統計資料",
+    "sendData": "傳送資料",
+    "send": "傳送",
+    "apply": "套用",
+    "connect": "連線",
+    "disconnect": "中斷連線"
+  },
+
+  "messages": {
+    "success": "執行成功"
+  },
+
+  "roles": {
+    "admin": "系統管理員",
+    "manager": "一般管理員",
+    "dev": "開發者",
+    "user": "使用者"
+  },
+
+  "types": {
+    "string": "文字",
+    "hex": "十六進制"
+  },
+
+  "user": {
+    "filter": "過濾帳號",
+    "titleAdd": "建立帳號",
+    "titleEdit": "編輯帳號",
+    "titleDelete": "移除帳號",
+    "titleDetail": "詳細資料",
+    "userId": "使用者代號",
+    "account": "帳號",
+    "password": "密碼",
+    "roles": "角色",
+    "name": "顯示名稱",
+    "info": "其他資料 (JSON 格式)",
+    "deleteText": "以下帳號將被移除。您確定嗎？"
+  },
+
+  "client": {
+    "titleAdd": "建立客戶端",
+    "titleEdit": "編輯客戶端",
+    "titleDelete": "移除客戶端",
+    "titleDetail": "詳細資料",
+    "public": "公開",
+    "private": "私有",
+    "clientId": "客戶端代號",
+    "clientSecret": "客戶端密鑰",
+    "redirectUris": "重定位網址",
+    "scopes": "權限",
+    "user": "開發者帳號",
+    "name": "顯示名稱",
+    "image": "圖片網址",
+    "createSecret": "為私有客戶端建立密鑰",
+    "regenSecret": "重新建立客戶端密鑰",
+    "deleteText": "以下客戶端將被移除。您確定嗎？"
+  },
+
+  "unit": {
+    "filter": "過濾組織單位 (代碼)",
+    "titleAdd": "建立組織單位",
+    "titleEdit": "編輯組織單位",
+    "titleDelete": "移除組織單位",
+    "titleDetail": "詳細資料",
+    "unitId": "組織單位代號",
+    "code": "代碼",
+    "owner": "擁有者",
+    "members": "成員",
+    "name": "顯示名稱",
+    "info": "其他資料 (JSON 格式)",
+    "deleteText": "以下組織單位將被移除。您確定嗎？"
+  },
+
+  "application": {
+    "filter": "過濾應用 (代碼)",
+    "selectAllUnits": "所有組織單位",
+    "titleAdd": "建立應用",
+    "titleEdit": "編輯應用",
+    "titleDelete": "移除應用",
+    "titleDetail": "詳細資料",
+    "titleStats": "佇列統計",
+    "titleSendData": "傳送下行資料 (至裝置)",
+    "statsQueue": "佇列",
+    "statsConsumers": "消費者數量",
+    "statsMessages": "訊息量",
+    "statsPublishRate": "生產速率 (訊息／秒)",
+    "statsDeliverRate": "消費速率 (訊息／秒)",
+    "sendDevice": "目的裝置",
+    "sendPayload": "內容",
+    "sendPayloadType": "內容類型",
+    "applicationId": "應用代號",
+    "code": "代碼",
+    "unit": "組織單位",
+    "host": "主機網址",
+    "protocol": "協定",
+    "ttl": "訊息保留時間 (毫秒)",
+    "length": "佇列長度",
+    "password": "佇列密碼",
+    "name": "顯示名稱",
+    "info": "其他資料 (JSON 格式)",
+    "deleteText": "以下應用將被移除。您確定嗎？"
+  },
+
+  "network": {
+    "filter": "過濾網路 (代碼)",
+    "selectAllUnits": "所有組織單位",
+    "titleAdd": "建立網路",
+    "titleEdit": "編輯網路",
+    "titleDelete": "移除網路",
+    "titleDetail": "詳細資料",
+    "titleStats": "佇列統計",
+    "titleSendData": "傳送上行資料 (至應用)",
+    "statsQueue": "佇列",
+    "statsConsumers": "消費者數量",
+    "statsMessages": "訊息量",
+    "statsPublishRate": "生產速率 (訊息／秒)",
+    "statsDeliverRate": "消費速率 (訊息／秒)",
+    "sendDevice": "目的裝置",
+    "sendPayload": "內容",
+    "sendPayloadType": "內容類型",
+    "applicationId": "網路代號",
+    "code": "代碼",
+    "unit": "組織單位",
+    "host": "主機網址",
+    "protocol": "協定",
+    "ttl": "訊息保留時間 (毫秒)",
+    "length": "佇列長度",
+    "password": "佇列密碼",
+    "name": "顯示名稱",
+    "info": "其他資料 (JSON 格式)",
+    "deleteText": "以下網路將被移除。您確定嗎？"
+  },
+
+  "device": {
+    "filter": "過濾裝置 (名稱)",
+    "selectAllUnits": "所有組織單位",
+    "titleAdd": "建立裝置",
+    "titleEdit": "編輯裝置",
+    "titleDelete": "移除裝置",
+    "titleDetail": "詳細資料",
+    "deviceId": "裝置代號",
+    "unitId": "組織單位代號",
+    "unitCode": "組織單位代碼",
+    "networkId": "網路代號",
+    "networkCode": "網路代碼",
+    "networkAddr": "網路位址",
+    "unit": "組織單位",
+    "network": "網路",
+    "name": "顯示名稱",
+    "info": "其他資料 (JSON 格式)",
+    "deleteText": "以下裝置將被移除。您確定嗎？"
+  },
+
+  "deviceRoute": {
+    "selectAllUnits": "所有組織單位",
+    "titleAdd": "建立裝置路由",
+    "titleDelete": "移除裝置路由",
+    "routeId": "裝置路由代號",
+    "unitId": "組織單位代號",
+    "applicationId": "應用代號",
+    "applicationCode": "應用代碼",
+    "deviceId": "裝置代號",
+    "networkId": "網路代號",
+    "networkCode": "網路代碼",
+    "networkAddr": "網路位址",
+    "unit": "組織單位",
+    "network": "網路",
+    "address": "位址",
+    "application": "應用",
+    "device": "裝置",
+    "deleteText": "以下裝置路由將被移除。您確定嗎？"
+  },
+
+  "networkRoute": {
+    "selectAllUnits": "所有組織單位",
+    "titleAdd": "建立網路路由",
+    "titleDelete": "移除網路路由",
+    "routeId": "網路路由代號",
+    "unitId": "組織單位代號",
+    "applicationId": "應用代號",
+    "applicationCode": "應用代碼",
+    "networkId": "網路代號",
+    "networkCode": "網路代碼",
+    "unit": "組織單位",
+    "network": "網路",
+    "application": "應用",
+    "deleteText": "以下網路路由將被移除。您確定嗎？"
+  },
+
+  "dldataBuffer": {
+    "selectAllUnits": "所有組織單位",
+    "titleDelete": "移除下行資料",
+    "dataId": "資料代號",
+    "unitId": "組織單位代號",
+    "applicationId": "應用代號",
+    "applicationCode": "應用代碼",
+    "deviceId": "裝置代號",
+    "networkId": "網路代號",
+    "unit": "組織單位",
+    "network": "網路",
+    "address": "位址",
+    "application": "應用",
+    "device": "裝置",
+    "deleteText": "以下下行資料將被移除。您確定嗎？"
+  },
+
+  "data": {
+    "selectAllUnits": "所有組織單位",
+    "formatHex": "十六進制",
+    "formatText": "純文字",
+
+    "tabUldata": "上行資料",
+    "tabDldata": "下行資料",
+
+    "proc": "接收時間",
+    "pub": "發送時間",
+    "resp": "回覆時間",
+    "time": "裝置時間",
+    "status": "狀態",
+    "network": "網路組織/代碼",
+    "addr": "裝置位址",
+    "device": "裝置",
+    "unit": "裝置組織",
+    "data": "資料",
+    "extension": "延伸內容",
+
+    "reqTime": "請求時間",
+    "resTime": "回應時間",
+    "latency": "延遲(毫秒)",
+    "statusCode": "狀態碼",
+    "sourceIp": "來源IP",
+    "method": "方法",
+    "path": "路徑",
+    "body": "內容",
+    "user": "操作人員",
+    "client": "客戶端",
+    "errCode": "錯誤代碼",
+    "errMessage": "錯誤訊息"
+  },
+
+  "router": {
+    "systemUsage": "系統資源使用率",
+    "showLogicalCpu": "邏輯處理器",
+    "cpu": "中央處理器",
+    "memory": "記憶體",
+    "disk": "硬碟",
+
+    "titleEditWan": "編輯外部網路(WAN)",
+    "titleEditLan": "編輯區域網路(LAN)",
+    "titleEditWlan": "編輯無線區域網路(WLAN)",
+    "titleEditWwan": "編輯無線外部網路(WWAN)",
+    "titleConnect": "連線至",
+    "wanType": "設定種類",
+    "typeDisable": "停用",
+    "typeDhcp": "動態網路",
+    "typePppoe": "撥號 (PPPoE)",
+    "typeStatic": "靜態網路",
+    "ipv4setting": "IPv4設定",
+    "curSettings": "目前設定",
+    "curStatus": "目前狀態",
+    "apList": "可用基地台列表",
+    "ip4addr": "本機IPv4地址",
+    "ip4gw": "閘道器IPv4地址",
+    "ip4dns": "DNS IPv4地址",
+    "username": "用戶名稱",
+    "password": "密碼",
+    "dhcpStart": "DHCP起始IP地址",
+    "dhcpEnd": "DHCP結束IP地址",
+    "leaseTime": "DHCP租用時間(秒)",
+    "netStatus": "網際網路狀態",
+    "leaseIp": "IP地址",
+    "leaseStarts": "開始時間",
+    "leaseEnds": "結束時間",
+    "leaseMac": "硬體(網卡)地址",
+    "leaseClient": "客戶端",
+    "status": "狀態",
+    "statusEnabled": "啟用",
+    "statusDisabled": "停用",
+    "ssid": "SSID",
+    "channel": "通道",
+    "showPassword": "顯示密碼"
+  },
+
+  "loraIfroglab": {
+    "tabUldata": "上行資料",
+    "tabDldata": "下行資料",
+    "tabQueue": "佇列資料",
+
+    "time": "時間",
+    "pub": "產生時間",
+    "sent": "發送時間",
+    "nodeId": "裝置代號",
+    "data": "資料",
+    "rssi": "訊號強度"
+  },
+
+  "appDemo": {
+    "tabGauge": "測量圖",
+    "tabUldata": "上行資料",
+    "tabDldata": "下行資料",
+    "titleSendData": "傳送下行資料 (至裝置)",
+    "sendPayload": "內容",
+    "sendPayloadType": "內容類型",
+
+    "time": "時間",
+    "pub": "產生時間",
+    "networkCode": "網路代碼",
+    "networkAddr": "網路位址",
+    "data": "資料",
+    "rssi": "訊號強度",
+    "error": "錯誤",
+    "message": "詳細訊息"
+  },
+
+  "apiError": {
+    "err_auth": "認證錯誤，請重新登入",
+    "err_db": "資料庫發生問題，請再試一次",
+    "err_int_msg": "內部傳輸發生問題，請再試一次",
+    "err_not_found": "請求的資源不存在",
+    "err_param": "請求的參數錯誤",
+    "err_perm": "沒有存取權限",
+    "err_rsc": "資源建立發生問題，請再試一次",
+    "err_unknown": "未知錯誤，請聯繫系統管理員",
+    "err_auth_user_exist": "此帳號已被使用",
+    "err_auth_user_not_exist": "此帳號不存在",
+    "err_broker_application_exist": "此應用代碼已被使用",
+    "err_broker_application_not_exist": "此應用不存在",
+    "err_broker_device_not_exist": "此裝置不存在",
+    "err_broker_member_not_exist": "此成員帳號不存在",
+    "err_broker_network_addr_exist": "此網路位址已被使用",
+    "err_broker_network_exist": "此網路代碼已被使用",
+    "err_broker_network_not_exist": "此網路不存在",
+    "err_broker_owner_not_exist": "此擁有者帳號不存在",
+    "err_broker_route_exist": "此路由規則已被使用",
+    "err_broker_unit_exist": "此組織單位已被使用",
+    "err_broker_unit_not_exist": "此組織單位不存在",
+    "err_broker_unit_not_match": "裝置和應用的組織單位不匹配",
+    "err_xhr_network": "網路錯誤。請檢查網路連線環境是否異常",
+    "err_xhr_unknown": "未知的網路錯誤"
+  }
+}
