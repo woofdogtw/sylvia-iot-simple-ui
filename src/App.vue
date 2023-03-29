@@ -8,7 +8,6 @@ import { Buffer } from 'buffer';
 import qs from 'qs';
 import strftime from 'strftime';
 import { useStore } from 'stores/system';
-import config from './config.json';
 
 export default defineComponent({
   name: 'App',
@@ -24,14 +23,14 @@ export default defineComponent({
         }
         let opts = {
           method: 'POST',
-          url: `${config.auth.base}/oauth2/refresh`,
+          url: `${this.config.auth.base}/oauth2/refresh`,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
           data: qs.stringify({
             grant_type: 'refresh_token',
             refresh_token: tokens.refreshToken,
-            client_id: config.auth.clientId,
+            client_id: this.config.auth.clientId,
           }),
         };
         return void this.$axios(opts)
@@ -84,11 +83,11 @@ export default defineComponent({
     },
     signin() {
       let url =
-        config.auth.base +
+        this.config.auth.base +
         '/oauth2/auth?response_type=code&redirect_uri=' +
-        encodeURIComponent(config.auth.redirectUri) +
+        encodeURIComponent(this.config.auth.redirectUri) +
         '&client_id=' +
-        config.auth.clientId +
+        this.config.auth.clientId +
         '&state=' +
         this.$route.path;
       window.location.href = url;
@@ -107,9 +106,12 @@ export default defineComponent({
   },
 
   setup() {
+    const config = window.config;
+    console.log(config);
     const store = useStore();
 
     return {
+      config,
       store,
     };
   },

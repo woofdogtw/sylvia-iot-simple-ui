@@ -142,7 +142,6 @@
 <script>
 import { defineComponent } from 'vue';
 import { useStore } from 'stores/system';
-import config from '../../config.json';
 
 export default defineComponent({
   name: 'WwanPage',
@@ -209,7 +208,7 @@ export default defineComponent({
       }
       let opts = {
         method: 'PUT',
-        url: `${config.router.base}/api/v1/net/wwan`,
+        url: `${this.$root.config.router.base}/api/v1/net/wwan`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -237,7 +236,7 @@ export default defineComponent({
       let body = { data: { enable: false } };
       let opts = {
         method: 'PUT',
-        url: `${config.router.base}/api/v1/net/wwan`,
+        url: `${this.$root.config.router.base}/api/v1/net/wwan`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -268,7 +267,7 @@ export default defineComponent({
 
       let opts = {
         method: 'GET',
-        url: `${config.router.base}/api/v1/net/wwan`,
+        url: `${this.$root.config.router.base}/api/v1/net/wwan`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -296,7 +295,7 @@ export default defineComponent({
 
       let opts = {
         method: 'GET',
-        url: `${config.router.base}/api/v1/net/wwan/list`,
+        url: `${this.$root.config.router.base}/api/v1/net/wwan/list`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },

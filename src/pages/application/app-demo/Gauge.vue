@@ -10,7 +10,6 @@ import { use } from 'echarts/core';
 import { GaugeChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
 import VChart from 'vue-echarts';
-import config from '../../../config';
 
 use([CanvasRenderer, GaugeChart]);
 
@@ -164,7 +163,7 @@ export default defineComponent({
 
       let opts = {
         method: 'GET',
-        url: `${config.appDemo.base}/api/v1/data/uldata`,
+        url: `${this.$root.config.appDemo.base}/api/v1/data/uldata`,
       };
       let self = this;
       this.loading = true;

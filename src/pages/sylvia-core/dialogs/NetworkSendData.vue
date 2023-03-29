@@ -46,7 +46,6 @@ import { defineComponent } from 'vue';
 import { Buffer } from 'buffer';
 import qs from 'qs';
 import { useStore } from 'stores/system';
-import config from '../../../config.json';
 
 const TYPE_HEX = 'hex';
 const TYPE_STR = 'string';
@@ -92,7 +91,7 @@ export default defineComponent({
       };
       let opts = {
         method: 'POST',
-        url: `${config.coremgr.base}/api/v1/network/${this.networkId}/uldata`,
+        url: `${this.$root.config.coremgr.base}/api/v1/network/${this.networkId}/uldata`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -122,7 +121,9 @@ export default defineComponent({
       };
       let opts = {
         method: 'GET',
-        url: `${config.coremgr.base}/api/v1/device/list?${qs.stringify(query)}`,
+        url: `${
+          this.$root.config.coremgr.base
+        }/api/v1/device/list?${qs.stringify(query)}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },

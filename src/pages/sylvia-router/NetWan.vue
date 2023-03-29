@@ -178,7 +178,6 @@
 <script>
 import { defineComponent } from 'vue';
 import { useStore } from 'stores/system';
-import config from '../../config.json';
 
 const TYPE_DISABLE = 'disable';
 const TYPE_DHCP = 'dhcp';
@@ -317,7 +316,7 @@ export default defineComponent({
       }
       let opts = {
         method: 'PUT',
-        url: `${config.router.base}/api/v1/net/wan/${this.input.wanId}`,
+        url: `${this.$root.config.router.base}/api/v1/net/wan/${this.input.wanId}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -344,7 +343,7 @@ export default defineComponent({
 
       let opts = {
         method: 'GET',
-        url: `${config.router.base}/api/v1/net/wan`,
+        url: `${this.$root.config.router.base}/api/v1/net/wan`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },

@@ -42,7 +42,6 @@
 <script>
 import { defineComponent } from 'vue';
 import { useStore } from 'stores/system';
-import config from '../../../../config.json';
 
 const TYPE_HEX = 'hex';
 const TYPE_STR = 'string';
@@ -85,7 +84,7 @@ export default defineComponent({
       };
       let opts = {
         method: 'POST',
-        url: `${config.appDemo.base}/api/v1/data/dldata`,
+        url: `${this.$root.config.appDemo.base}/api/v1/data/dldata`,
         data: body,
       };
       let self = this;
@@ -102,7 +101,7 @@ export default defineComponent({
     getDeviceList() {
       let opts = {
         method: 'GET',
-        url: `${config.appDemo.base}/api/v1/data/dldata`,
+        url: `${this.$root.config.appDemo.base}/api/v1/data/dldata`,
       };
       let self = this;
       this.$axios(opts)

@@ -7,7 +7,6 @@ import qs from 'qs';
 import { defineComponent } from 'vue';
 import { parseQuery } from 'vue-router';
 import { useStore } from 'stores/system';
-import config from '../../config.json';
 
 export default defineComponent({
   name: 'IndexPage',
@@ -22,15 +21,15 @@ export default defineComponent({
 
     let opts = {
       method: 'POST',
-      url: `${config.auth.base}/oauth2/token`,
+      url: `${this.$root.config.auth.base}/oauth2/token`,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       data: qs.stringify({
         grant_type: 'authorization_code',
         code: query.code,
-        redirect_uri: config.auth.redirectUri,
-        client_id: config.auth.clientId,
+        redirect_uri: this.$root.config.auth.redirectUri,
+        client_id: this.$root.config.auth.clientId,
       }),
     };
     let self = this;

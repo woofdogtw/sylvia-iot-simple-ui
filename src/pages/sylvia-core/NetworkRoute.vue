@@ -136,7 +136,6 @@
 import { defineComponent } from 'vue';
 import qs from 'qs';
 import { useStore } from 'stores/system';
-import config from '../../config.json';
 
 export default defineComponent({
   name: 'NetworkRoutePage',
@@ -191,7 +190,7 @@ export default defineComponent({
       };
       let opts = {
         method: 'POST',
-        url: `${config.coremgr.base}/api/v1/network-route`,
+        url: `${this.$root.config.coremgr.base}/api/v1/network-route`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -222,7 +221,7 @@ export default defineComponent({
 
       let opts = {
         method: 'DELETE',
-        url: `${config.coremgr.base}/api/v1/network-route/${this.input.routeId}`,
+        url: `${this.$root.config.coremgr.base}/api/v1/network-route/${this.input.routeId}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -265,9 +264,9 @@ export default defineComponent({
       }
       let opts = {
         method: 'GET',
-        url: `${config.coremgr.base}/api/v1/network-route/count?${qs.stringify(
-          query
-        )}`,
+        url: `${
+          this.$root.config.coremgr.base
+        }/api/v1/network-route/count?${qs.stringify(query)}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -312,9 +311,9 @@ export default defineComponent({
       }
       let opts = {
         method: 'GET',
-        url: `${config.coremgr.base}/api/v1/network-route/list?${qs.stringify(
-          query
-        )}`,
+        url: `${
+          this.$root.config.coremgr.base
+        }/api/v1/network-route/list?${qs.stringify(query)}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -339,7 +338,7 @@ export default defineComponent({
 
       let opts = {
         method: 'GET',
-        url: `${config.coremgr.base}/api/v1/unit/list?limit=0`,
+        url: `${this.$root.config.coremgr.base}/api/v1/unit/list?limit=0`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -395,9 +394,9 @@ export default defineComponent({
       }
       let opts = {
         method: 'GET',
-        url: `${config.coremgr.base}/api/v1/application/list?${qs.stringify(
-          query
-        )}`,
+        url: `${
+          this.$root.config.coremgr.base
+        }/api/v1/application/list?${qs.stringify(query)}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -434,9 +433,9 @@ export default defineComponent({
       }
       let opts = {
         method: 'GET',
-        url: `${config.coremgr.base}/api/v1/network/list?${qs.stringify(
-          query
-        )}`,
+        url: `${
+          this.$root.config.coremgr.base
+        }/api/v1/network/list?${qs.stringify(query)}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },

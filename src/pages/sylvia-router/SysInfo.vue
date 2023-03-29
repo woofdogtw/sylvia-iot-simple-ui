@@ -21,7 +21,6 @@ import { GridComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import VChart from 'vue-echarts';
 import { useStore } from 'stores/system';
-import config from '../../config.json';
 
 use([BarChart, CanvasRenderer, GaugeChart, GridComponent]);
 
@@ -167,7 +166,7 @@ export default defineComponent({
 
       let opts = {
         method: 'GET',
-        url: `${config.router.base}/api/v1/sys/usage`,
+        url: `${this.$root.config.router.base}/api/v1/sys/usage`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },

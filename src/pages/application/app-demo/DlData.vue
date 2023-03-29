@@ -44,7 +44,6 @@
 
 <script>
 import { defineComponent } from 'vue';
-import config from '../../../config';
 import SendData from './dialogs/SendData';
 
 export default defineComponent({
@@ -78,7 +77,7 @@ export default defineComponent({
     getList() {
       let opts = {
         method: 'GET',
-        url: `${config.appDemo.base}/api/v1/data/dldata`,
+        url: `${this.$root.config.appDemo.base}/api/v1/data/dldata`,
       };
       let self = this;
       this.loading = true;

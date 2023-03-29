@@ -38,7 +38,6 @@
 
 <script>
 import { defineComponent } from 'vue';
-import config from '../../../config';
 
 export default defineComponent({
   name: 'QueuePage',
@@ -64,7 +63,7 @@ export default defineComponent({
 
       let opts = {
         method: 'GET',
-        url: `${config.loraIfroglab.base}/api/v1/data/queue/${this.search}`,
+        url: `${this.$root.config.loraIfroglab.base}/api/v1/data/queue/${this.search}`,
       };
       let self = this;
       this.loading = true;

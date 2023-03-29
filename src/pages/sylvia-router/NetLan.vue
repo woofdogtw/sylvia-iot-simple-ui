@@ -112,7 +112,6 @@
 <script>
 import { defineComponent } from 'vue';
 import { useStore } from 'stores/system';
-import config from '../../config.json';
 import NetLanLeases from './dialogs/NetLanLeases';
 
 export default defineComponent({
@@ -196,7 +195,7 @@ export default defineComponent({
       }
       let opts = {
         method: 'PUT',
-        url: `${config.router.base}/api/v1/net/lan`,
+        url: `${this.$root.config.router.base}/api/v1/net/lan`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -226,7 +225,7 @@ export default defineComponent({
 
       let opts = {
         method: 'GET',
-        url: `${config.router.base}/api/v1/net/lan`,
+        url: `${this.$root.config.router.base}/api/v1/net/lan`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },

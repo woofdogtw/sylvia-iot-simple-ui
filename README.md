@@ -15,3 +15,10 @@ This program provides web pages to access the following components:
     - [lora-ifroglab](https://github.com/woofdogtw/sylvia-iot-examples/tree/main/lora-ifroglab)
 
 I learned Vue.js and web UI programming skills through this project. Maybe I will also use this project to learn Micro Frontend in the future, so that the web pages of application servers and network servers can be developed independently.
+
+# Build Docker Image
+
+Use the following commands:
+
+    $ npx quasar build; \
+      docker build sylvia-iot-simple-ui -f Dockerfile .

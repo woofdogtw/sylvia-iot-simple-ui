@@ -42,7 +42,6 @@
 <script>
 import { defineComponent } from 'vue';
 import { useStore } from 'stores/system';
-import config from '../../../config.json';
 
 export default defineComponent({
   name: 'NetworkStatsDialog',
@@ -89,7 +88,7 @@ export default defineComponent({
       }
       let opts = {
         method: 'GET',
-        url: `${config.coremgr.base}/api/v1/network/${this.networkId}/stats`,
+        url: `${this.$root.config.coremgr.base}/api/v1/network/${this.networkId}/stats`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },

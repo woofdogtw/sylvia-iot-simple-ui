@@ -349,7 +349,6 @@
 import { defineComponent } from 'vue';
 import qs from 'qs';
 import { useStore } from 'stores/system';
-import config from '../../config.json';
 import ApplicationSendData from './dialogs/ApplicationSendData';
 import ApplicationStats from './dialogs/ApplicationStats';
 
@@ -438,7 +437,7 @@ export default defineComponent({
       }
       let opts = {
         method: 'POST',
-        url: `${config.coremgr.base}/api/v1/application`,
+        url: `${this.$root.config.coremgr.base}/api/v1/application`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -499,7 +498,7 @@ export default defineComponent({
       }
       let opts = {
         method: 'PATCH',
-        url: `${config.coremgr.base}/api/v1/application/${this.input.applicationId}`,
+        url: `${this.$root.config.coremgr.base}/api/v1/application/${this.input.applicationId}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -530,7 +529,7 @@ export default defineComponent({
 
       let opts = {
         method: 'DELETE',
-        url: `${config.coremgr.base}/api/v1/application/${this.input.applicationId}`,
+        url: `${this.$root.config.coremgr.base}/api/v1/application/${this.input.applicationId}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -591,9 +590,9 @@ export default defineComponent({
       }
       let opts = {
         method: 'GET',
-        url: `${config.coremgr.base}/api/v1/application/count?${qs.stringify(
-          query
-        )}`,
+        url: `${
+          this.$root.config.coremgr.base
+        }/api/v1/application/count?${qs.stringify(query)}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -641,9 +640,9 @@ export default defineComponent({
       }
       let opts = {
         method: 'GET',
-        url: `${config.coremgr.base}/api/v1/application/list?${qs.stringify(
-          query
-        )}`,
+        url: `${
+          this.$root.config.coremgr.base
+        }/api/v1/application/list?${qs.stringify(query)}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -668,7 +667,7 @@ export default defineComponent({
 
       let opts = {
         method: 'GET',
-        url: `${config.coremgr.base}/api/v1/unit/list?limit=0`,
+        url: `${this.$root.config.coremgr.base}/api/v1/unit/list?limit=0`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -718,7 +717,7 @@ export default defineComponent({
 
       let opts = {
         method: 'GET',
-        url: `${config.coremgr.base}/api/v1/application/${id}`,
+        url: `${this.$root.config.coremgr.base}/api/v1/application/${id}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },

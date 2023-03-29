@@ -32,7 +32,6 @@
 
 <script>
 import { defineComponent } from 'vue';
-import config from '../../../config';
 
 export default defineComponent({
   name: 'DlDataPage',
@@ -57,7 +56,7 @@ export default defineComponent({
     getList() {
       let opts = {
         method: 'GET',
-        url: `${config.loraIfroglab.base}/api/v1/data/dldata`,
+        url: `${this.$root.config.loraIfroglab.base}/api/v1/data/dldata`,
       };
       let self = this;
       this.loading = true;

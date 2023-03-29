@@ -286,7 +286,6 @@ import { defineComponent, ref } from 'vue';
 import { createI18n } from 'vue-i18n';
 import strftime from 'strftime';
 import { useStore } from 'stores/system';
-import config from '../config.json';
 
 const DEFAULT_LANGUAGE = 'en-us';
 
@@ -323,7 +322,7 @@ export default defineComponent({
 
       let opts = {
         method: 'GET',
-        url: `${config.coremgr.base}/api/v1/auth/tokeninfo`,
+        url: `${this.$root.config.coremgr.base}/api/v1/auth/tokeninfo`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -347,7 +346,7 @@ export default defineComponent({
 
       let opts = {
         method: 'GET',
-        url: `${config.router.base}/api/v1/sys/time`,
+        url: `${this.$root.config.router.base}/api/v1/sys/time`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },

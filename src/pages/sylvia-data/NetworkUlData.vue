@@ -56,7 +56,6 @@
 import { defineComponent } from 'vue';
 import qs from 'qs';
 import { useStore } from 'stores/system';
-import config from '../../config.json';
 
 export default defineComponent({
   name: 'NetworkUlDataPage',
@@ -110,9 +109,9 @@ export default defineComponent({
       }
       let opts = {
         method: 'GET',
-        url: `${config.data.base}/api/v1/network-uldata/count?${qs.stringify(
-          query
-        )}`,
+        url: `${
+          this.$root.config.data.base
+        }/api/v1/network-uldata/count?${qs.stringify(query)}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -157,9 +156,9 @@ export default defineComponent({
       }
       let opts = {
         method: 'GET',
-        url: `${config.data.base}/api/v1/network-uldata/list?${qs.stringify(
-          query
-        )}`,
+        url: `${
+          this.$root.config.data.base
+        }/api/v1/network-uldata/list?${qs.stringify(query)}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -185,7 +184,7 @@ export default defineComponent({
 
       let opts = {
         method: 'GET',
-        url: `${config.coremgr.base}/api/v1/unit/list?limit=0`,
+        url: `${this.$root.config.coremgr.base}/api/v1/unit/list?limit=0`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },
@@ -241,7 +240,9 @@ export default defineComponent({
       }
       let opts = {
         method: 'GET',
-        url: `${config.coremgr.base}/api/v1/device/list?${qs.stringify(query)}`,
+        url: `${
+          this.$root.config.coremgr.base
+        }/api/v1/device/list?${qs.stringify(query)}`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },

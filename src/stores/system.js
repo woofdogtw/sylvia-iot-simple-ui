@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import config from 'src/config.json';
 
 export const useStore = defineStore('system', {
   state: () => ({

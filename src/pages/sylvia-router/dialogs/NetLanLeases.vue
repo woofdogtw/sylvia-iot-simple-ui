@@ -42,7 +42,6 @@
 <script>
 import { defineComponent } from 'vue';
 import { useStore } from 'stores/system';
-import config from '../../../config.json';
 
 export default defineComponent({
   name: 'NetLanLeasesDialog',
@@ -85,7 +84,7 @@ export default defineComponent({
 
       let opts = {
         method: 'GET',
-        url: `${config.router.base}/api/v1/net/lan/leases`,
+        url: `${this.$root.config.router.base}/api/v1/net/lan/leases`,
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
         },

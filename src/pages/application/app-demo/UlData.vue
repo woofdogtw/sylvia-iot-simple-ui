@@ -34,7 +34,6 @@
 
 <script>
 import { defineComponent } from 'vue';
-import config from '../../../config';
 
 export default defineComponent({
   name: 'UlDataPage',
@@ -59,7 +58,7 @@ export default defineComponent({
     getList() {
       let opts = {
         method: 'GET',
-        url: `${config.appDemo.base}/api/v1/data/uldata`,
+        url: `${this.$root.config.appDemo.base}/api/v1/data/uldata`,
       };
       let self = this;
       this.loading = true;
