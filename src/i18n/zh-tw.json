@@ -212,6 +212,7 @@
     "networkId": "網路代號",
     "networkCode": "網路代碼",
     "networkAddr": "網路位址",
+    "profile": "裝置設定檔",
     "unit": "組織單位",
     "network": "網路",
     "name": "顯示名稱",

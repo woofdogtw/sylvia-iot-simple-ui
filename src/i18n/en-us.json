@@ -212,6 +212,7 @@
     "networkId": "Network ID",
     "networkCode": "Network code",
     "networkAddr": "Network address",
+    "profile": "Device profile",
     "unit": "Unit",
     "network": "Network",
     "name": "Display name",

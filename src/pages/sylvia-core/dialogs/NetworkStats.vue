@@ -109,6 +109,8 @@ export default defineComponent({
       switch (queue) {
         case 'dldata':
           return 'dldata';
+        case 'ctrl':
+          return 'ctrl';
       }
       return '';
     },

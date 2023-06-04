@@ -50,16 +50,18 @@
   <div class="row items-center">
     <div class="col-xs-2 col-sm-2 col-md-2">{{ $t('device.networkCode') }}</div>
     <div class="col-xs-2 col-sm-2 col-md-2">{{ $t('device.networkAddr') }}</div>
+    <div class="col-xs-2 col-sm-2 col-md-2">{{ $t('device.profile') }}</div>
     <div class="col-xs-4 col-sm-3 col-md-3">{{ $t('device.name') }}</div>
-    <div class="col-xs-4 col-sm-5 col-md-5"></div>
+    <div class="col-xs-2 col-sm-3 col-md-3"></div>
   </div>
 
   <q-list class="padding-zero" no-border highlight separator>
     <q-item v-for="(item, i) in data.list" :key="i">
       <div class="col-xs-2 col-sm-2 col-md-2 wrap">{{ item.networkCode }}</div>
       <div class="col-xs-2 col-sm-2 col-md-2 wrap">{{ item.networkAddr }}</div>
+      <div class="col-xs-2 col-sm-2 col-md-2 wrap">{{ item.profile }}</div>
       <div class="col-xs-4 col-sm-3 col-md-3 wrap">{{ item.name }}</div>
-      <div class="col-xs-4 col-sm-5 col-md-5 row justify-end">
+      <div class="col-xs-2 col-sm-3 col-md-3 row justify-end">
         <q-btn
           flat
           icon="edit"
@@ -114,6 +116,9 @@
           />
         </q-card-section>
         <q-card-section>
+          <q-input v-model="input.profile" :label="$t('device.profile')" />
+        </q-card-section>
+        <q-card-section>
           <q-input v-model="input.name" :label="$t('device.name')" />
         </q-card-section>
         <q-card-section>
@@ -147,7 +152,6 @@
           v-model="input.networkId"
           emit-value
           map-options
-          disable
           option-value="networkId"
           option-label="code"
           :options="data.networkList"
@@ -156,9 +160,11 @@
         <q-card-section>
           <q-input
             v-model="input.networkAddr"
-            disable
             :label="$t('device.networkAddr')"
           />
+        </q-card-section>
+        <q-card-section>
+          <q-input v-model="input.profile" :label="$t('device.profile')" />
         </q-card-section>
         <q-card-section>
           <q-input v-model="input.name" :label="$t('device.name')" />
@@ -234,6 +240,13 @@
           />
         </q-card-section>
         <q-card-section>
+          <q-input
+            v-model="input.profile"
+            disable
+            :label="$t('device.profile')"
+          />
+        </q-card-section>
+        <q-card-section>
           <q-input v-model="input.name" disable :label="$t('device.name')" />
         </q-card-section>
         <q-card-section>
@@ -285,8 +298,10 @@ export default defineComponent({
         networkId: '',
         networkCode: '',
         networkAddr: '',
+        profile: '',
         name: '',
         info: '',
+        _srcData: null, // for edit
       },
       selectUnit: '',
       search: '',
@@ -316,6 +331,7 @@ export default defineComponent({
           unitId: this.selectUnit,
           networkId: this.input.networkId,
           networkAddr: this.input.networkAddr,
+          profile: this.input.profile,
         },
       };
       if (this.input.name) {
@@ -367,6 +383,15 @@ export default defineComponent({
           name: this.input.name,
         },
       };
+      if (this.input.networkId !== this.input._srcData.networkId) {
+        body.data.networkId = this.input.networkId;
+      }
+      if (this.input.networkAddr !== this.input._srcData.networkAddr) {
+        body.data.networkAddr = this.input.networkAddr;
+      }
+      if (this.input.profile !== this.input._srcData.profile) {
+        body.data.profile = this.input.profile;
+      }
       if (
         this.input.info &&
         this.input.info.startsWith('{') &&
@@ -628,8 +653,10 @@ export default defineComponent({
         networkId: data ? data.networkId : '',
         networkCode: data ? data.networkCode : '',
         networkAddr: data ? data.networkAddr : '',
+        profile: data ? data.profile : '',
         name: data && data.name ? data.name : '',
         info: data && data.info ? JSON.stringify(data.info, null, '  ') : '',
+        _srcData: data ? JSON.parse(JSON.stringify(data)) : null,
       };
     },
   },
