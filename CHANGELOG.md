@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.3 - 2023-07-23
+
+### Added
+
+- Add GitHub Actions for releasing Docker images and GitHub Releases.
+
+### Changed
+
+- Update dependencies.
+- Update to Sylvia-IoT Core v0.0.19.
+
+### Fixed
+
+- Add `scopes` in the `public/js/config.js` file.
+
 ## 0.0.2 - 2023-03-29
 
 ### Added

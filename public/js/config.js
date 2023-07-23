@@ -1,22 +1,23 @@
 window.config = {
   auth: {
-    base: 'http://router.sylvia-iot:1080/auth',
+    base: 'http://localhost:1080/auth',
     clientId: 'sylvia-iot-simple-ui',
-    redirectUri: 'http://router.sylvia-iot:1080/#/sylvia-core/redirect',
+    redirectUri: 'http://localhost:1080/#/sylvia-core/redirect',
+    scopes: ['scope1'],
   },
   coremgr: {
-    base: 'http://router.sylvia-iot:1080/coremgr',
+    base: 'http://localhost:1080/coremgr',
   },
   data: {
-    base: 'http://router.sylvia-iot:1080/data',
+    base: 'http://localhost:1080/data',
   },
   router: {
-    base: 'http://router.sylvia-iot:1080/router',
+    base: 'http://localhost:1080/router',
   },
   loraIfroglab: {
-    base: 'http://router.sylvia-iot:6080/lora-ifroglab',
+    base: 'http://localhost:6080/lora-ifroglab',
   },
   appDemo: {
-    base: 'http://router.sylvia-iot:7080/app-demo',
+    base: 'http://localhost:7080/app-demo',
   },
 };

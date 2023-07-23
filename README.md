@@ -20,5 +20,8 @@ I learned Vue.js and web UI programming skills through this project. Maybe I wil
 
 Use the following commands:
 
-    $ npx quasar build; \
-      docker build sylvia-iot-simple-ui -f Dockerfile .
+```shell
+npm i; \
+npx quasar build; \
+docker build sylvia-iot-simple-ui -f Dockerfile .
+```

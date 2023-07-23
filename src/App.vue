@@ -90,6 +90,10 @@ export default defineComponent({
         this.config.auth.clientId +
         '&state=' +
         this.$route.path;
+      if (this.config.auth.scopes && this.config.auth.scopes.length > 0) {
+        url +=
+          '&scope=' + encodeURIComponent(this.config.auth.scopes.join(' '));
+      }
       window.location.href = url;
     },
     signout() {
@@ -107,7 +111,6 @@ export default defineComponent({
 
   setup() {
     const config = window.config;
-    console.log(config);
     const store = useStore();
 
     return {

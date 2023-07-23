@@ -1,0 +1,59 @@
+name: Release Sylvia-IoT core
+on:
+  push:
+    tags:
+      - v*
+env:
+  GHR_VER: v0.16.0
+  BIN_DIR: dist
+jobs:
+  release:
+    name: Publish GitHub Releases and Docker Hub
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Install packages
+        run: npm i
+      - name: Build
+        run: npx quasar build
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Docker meta simple-ui
+        id: meta-simple-ui
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            woofdogtw/sylvia-iot-simple-ui
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+      - name: Create simple-ui Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta-simple-ui.outputs.tags }}
+      - name: Create releases, assets and version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_VER: ${{ github.ref_name }}
+        run: |
+          cd ${BIN_DIR}
+          mv spa sylvia-iot-simple-ui-${RELEASE_VER}
+          tar cf sylvia-iot-simple-ui-${RELEASE_VER}.tar sylvia-iot-simple-ui-${RELEASE_VER}
+          xz -z -9 sylvia-iot-simple-ui-${RELEASE_VER}.tar
+          rm -r sylvia-iot-simple-ui-${RELEASE_VER}
+          cd ..
+          echo -n ${RELEASE_VER:1} > ${BIN_DIR}/VERSION
+          curl -LO https://github.com/tcnksm/ghr/releases/download/${GHR_VER}/ghr_${GHR_VER}_linux_amd64.tar.gz
+          tar xf ghr_${GHR_VER}_linux_amd64.tar.gz
+          ./ghr_${GHR_VER}_linux_amd64/ghr -u "${GITHUB_REPOSITORY%/*}" -r "${GITHUB_REPOSITORY#*/}" "${GITHUB_REF#refs/tags/}" ${BIN_DIR}
