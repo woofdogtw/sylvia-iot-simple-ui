@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0 - 2024-05-17
+
+### Changed
+
+- Update CI tools.
+- Update dependencies.
+
 ## 0.0.3 - 2023-07-23
 
 ### Added
