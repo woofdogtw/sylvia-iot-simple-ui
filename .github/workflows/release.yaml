@@ -4,15 +4,15 @@ on:
     tags:
       - v*
 env:
-  GHR_VER: v0.16.0
+  GHR_VER: v0.16.2
   BIN_DIR: dist
 jobs:
   release:
     name: Publish GitHub Releases and Docker Hub
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
       - name: Install packages
@@ -20,13 +20,13 @@ jobs:
       - name: Build
         run: npx quasar build
       - name: Login to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Docker meta simple-ui
         id: meta-simple-ui
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: |
             woofdogtw/sylvia-iot-simple-ui
@@ -35,7 +35,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
       - name: Create simple-ui Docker image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
