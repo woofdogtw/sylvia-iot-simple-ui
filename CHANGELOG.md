@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.1 - 2024-05-31
+
+### Changed
+
+- Update nginx to 1.26.1.
+- Update dependencies.
+
+### Fixed
+
+- Fix DHCP leases dialog title.
+
 ## 0.1.0 - 2024-05-17
 
 ### Changed

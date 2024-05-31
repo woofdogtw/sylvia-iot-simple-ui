@@ -319,6 +319,7 @@
     "titleEditWlan": "Edit WLAN",
     "titleEditWwan": "Edit WWAN",
     "titleConnect": "Connect to",
+    "titleLeases": "DHCP leases list",
     "wanType": "Type",
     "typeDisable": "Disable",
     "typeDhcp": "DHCP",

@@ -319,6 +319,7 @@
     "titleEditWlan": "編輯無線區域網路(WLAN)",
     "titleEditWwan": "編輯無線外部網路(WWAN)",
     "titleConnect": "連線至",
+    "titleLeases": "DHCP租約列表",
     "wanType": "設定種類",
     "typeDisable": "停用",
     "typeDhcp": "動態網路",
