@@ -6,8 +6,8 @@
 
     <q-pagination
       v-model="curPage"
-      :max="data.totalPages"
       input
+      :max="data.totalPages"
       @update:model-value="onPageUpdate"
     />
 
@@ -43,14 +43,14 @@
 
   <q-list
     class="padding-zero"
-    no-border
-    highlight
-    separator
     v-if="
       store.getAccountInfo().roles &&
       (store.getAccountInfo().roles.admin ||
         store.getAccountInfo().roles.manager)
     "
+    highlight
+    no-border
+    separator
   >
     <q-item v-for="(item, i) in data.list" :key="i">
       <div class="col-xs-2 col-sm-2 col-md-2 wrap">{{ item.code }}</div>
@@ -89,7 +89,7 @@
       </div>
     </q-item>
   </q-list>
-  <q-list class="padding-zero" no-border highlight separator v-else>
+  <q-list class="padding-zero" v-else highlight no-border separator>
     <q-item v-for="(item, i) in data.list" :key="i">
       <div class="col-xs-3 col-sm-3 col-md-3 wrap">{{ item.code }}</div>
       <div class="col-xs-5 col-sm-4 col-md-4 wrap">{{ item.name }}</div>
@@ -126,12 +126,12 @@
   </q-list>
 
   <q-dialog v-model="showAdd">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('unit.titleAdd') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           <q-select
             v-model="input.ownerId"
@@ -141,10 +141,10 @@
                 store.getAccountInfo().roles.manager)
             "
             emit-value
-            option-value="userId"
             option-label="account"
-            :options="data.userList"
+            option-value="userId"
             :label="$t('unit.owner')"
+            :options="data.userList"
           />
         </q-card-section>
         <q-card-section>
@@ -165,7 +165,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onAddOk">
+        <q-btn color="primary" flat v-close-popup @click="onAddOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -174,12 +174,12 @@
   </q-dialog>
 
   <q-dialog v-model="showEdit">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('unit.titleEdit') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           <q-select
             v-model="input.ownerId"
@@ -189,14 +189,14 @@
                 store.getAccountInfo().roles.manager)
             "
             emit-value
-            option-value="userId"
             option-label="account"
-            :options="data.userList"
+            option-value="userId"
             :label="$t('unit.owner')"
+            :options="data.userList"
           />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.code" disable :label="$t('unit.code')" />
+          <q-input v-model="input.code" readonly :label="$t('unit.code')" />
         </q-card-section>
         <q-card-section>
           <q-input v-model="input.name" :label="$t('unit.name')" />
@@ -213,7 +213,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onEditOk">
+        <q-btn color="primary" flat v-close-popup @click="onEditOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -222,12 +222,12 @@
   </q-dialog>
 
   <q-dialog v-model="showDelete">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('unit.titleDelete') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           {{ $t('unit.deleteText') }}
         </q-card-section>
@@ -239,7 +239,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onDeleteOk">
+        <q-btn color="primary" flat v-close-popup @click="onDeleteOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -248,12 +248,12 @@
   </q-dialog>
 
   <q-dialog v-model="showDetail">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('unit.titleDetail') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           <q-select
             v-model="input.ownerId"
@@ -263,27 +263,27 @@
                 store.getAccountInfo().roles.manager)
             "
             emit-value
-            disable
-            option-value="userId"
             option-label="account"
-            :options="data.userList"
+            option-value="userId"
+            readonly
             :label="$t('unit.owner')"
+            :options="data.userList"
           />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.unitId" disable :label="$t('unit.unitId')" />
+          <q-input v-model="input.unitId" readonly :label="$t('unit.unitId')" />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.code" disable :label="$t('unit.code')" />
+          <q-input v-model="input.code" readonly :label="$t('unit.code')" />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.name" disable :label="$t('unit.name')" />
+          <q-input v-model="input.name" readonly :label="$t('unit.name')" />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.info"
+            readonly
             type="textarea"
-            disable
             :label="$t('unit.info')"
           />
         </q-card-section>
@@ -292,7 +292,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup>
+        <q-btn color="primary" flat v-close-popup>
           {{ $t('buttons.ok') }}
         </q-btn>
       </q-card-actions>

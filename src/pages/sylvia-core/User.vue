@@ -6,8 +6,8 @@
 
     <q-pagination
       v-model="curPage"
-      :max="data.totalPages"
       input
+      :max="data.totalPages"
       @update:model-value="onPageUpdate"
     />
 
@@ -29,7 +29,7 @@
     <div class="col-xs-1 col-sm-3 col-md-3"></div>
   </div>
 
-  <q-list class="padding-zero" no-border highlight separator>
+  <q-list class="padding-zero" highlight no-border separator>
     <q-item v-for="(item, i) in data.list" :key="i">
       <div class="col-xs-2 col-sm-2 col-md-2 wrap">{{ item.account }}</div>
       <div class="col-xs-4 col-sm-3 col-md-3 wrap">{{ item.name }}</div>
@@ -72,17 +72,21 @@
   </q-list>
 
   <q-dialog v-model="showAdd">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('user.titleAdd') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           <q-input v-model="input.account" :label="$t('user.account')" />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.password" :label="$t('user.password')" />
+          <q-input
+            v-model="input.password"
+            type="password"
+            :label="$t('user.password')"
+          />
         </q-card-section>
         <q-card-section>
           <q-input v-model="input.name" :label="$t('user.name')" />
@@ -99,7 +103,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onAddOk">
+        <q-btn color="primary" flat v-close-popup @click="onAddOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -108,21 +112,25 @@
   </q-dialog>
 
   <q-dialog v-model="showEdit">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('user.titleEdit') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           <q-input
             v-model="input.account"
-            disable
+            readonly
             :label="$t('user.account')"
           />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.password" :label="$t('user.password')" />
+          <q-input
+            v-model="input.password"
+            type="password"
+            :label="$t('user.password')"
+          />
         </q-card-section>
         <q-card-section>
           <q-checkbox v-model="input.roles.admin" :label="$t('roles.admin')" />
@@ -148,7 +156,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onEditOk">
+        <q-btn color="primary" flat v-close-popup @click="onEditOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -157,12 +165,12 @@
   </q-dialog>
 
   <q-dialog v-model="showDelete">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('user.titleDelete') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           {{ $t('user.deleteText') }}
         </q-card-section>
@@ -174,7 +182,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onDeleteOk">
+        <q-btn color="primary" flat v-close-popup @click="onDeleteOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -183,19 +191,19 @@
   </q-dialog>
 
   <q-dialog v-model="showDetail">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('user.titleDetail') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
-          <q-input v-model="input.userId" disable :label="$t('user.userId')" />
+          <q-input v-model="input.userId" readonly :label="$t('user.userId')" />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.account"
-            disable
+            readonly
             :label="$t('user.account')"
           />
         </q-card-section>
@@ -207,6 +215,7 @@
           />
           <q-checkbox
             v-model="input.roles.manager"
+            disable
             :label="$t('roles.manager')"
           />
           <q-checkbox
@@ -221,13 +230,13 @@
           />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.name" disable :label="$t('user.name')" />
+          <q-input v-model="input.name" readonly :label="$t('user.name')" />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.info"
+            readonly
             type="textarea"
-            disable
             :label="$t('user.info')"
           />
         </q-card-section>
@@ -236,7 +245,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup>
+        <q-btn color="primary" flat v-close-popup>
           {{ $t('buttons.ok') }}
         </q-btn>
       </q-card-actions>

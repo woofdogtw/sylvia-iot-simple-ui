@@ -20,9 +20,9 @@
 
 <script>
 import { defineComponent } from 'vue';
-import UlDataPage from './UlData';
-import DlDataPage from './DlData';
-import QueuePage from './Queue';
+import UlDataPage from './UlData.vue';
+import DlDataPage from './DlData.vue';
+import QueuePage from './Queue.vue';
 
 export default defineComponent({
   name: 'IndexPage',

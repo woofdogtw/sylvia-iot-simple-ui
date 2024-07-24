@@ -4,10 +4,10 @@
       v-model="selectUnit"
       emit-value
       map-options
-      option-value="unitId"
       option-label="code"
-      :options="data.unitList"
+      option-value="unitId"
       :label="$t('data.unit')"
+      :options="data.unitList"
       @update:model-value="getCount"
     />
 
@@ -17,8 +17,8 @@
 
     <q-pagination
       v-model="curPage"
-      :max="data.totalPages"
       input
+      :max="data.totalPages"
       @update:model-value="onPageUpdate"
     />
 
@@ -37,7 +37,7 @@
     <div class="col-xs-5 col-sm-5 col-md-5">{{ $t('data.data') }}</div>
   </div>
 
-  <q-list class="padding-zero" no-border highlight separator>
+  <q-list class="padding-zero" highlight no-border separator>
     <q-item v-for="(item, i) in data.list" :key="i">
       <div class="col-xs-2 col-sm-2 col-md-2">
         {{ $root.timeStr(item.proc) }}

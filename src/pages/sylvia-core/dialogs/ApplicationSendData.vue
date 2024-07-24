@@ -1,26 +1,26 @@
 <template>
   <q-dialog @show="onShow">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('application.titleSendData') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-select
           v-model="deviceId"
           emit-value
-          option-value="deviceId"
           option-label="networkAddr"
-          :options="data.deviceList"
+          option-value="deviceId"
           :label="$t('application.sendDevice')"
+          :options="data.deviceList"
         />
 
         <q-select
           v-model="payloadType"
           emit-value
+          :label="$t('application.sendPayloadType')"
           :option-label="(item) => $t('types.' + item)"
           :options="payloadTypes"
-          :label="$t('application.sendPayloadType')"
         />
 
         <q-input v-model="payload" :label="$t('application.sendPayload')" />
@@ -32,7 +32,7 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn flat color="primary" v-close-popup>
+          <q-btn color="primary" flat v-close-popup>
             {{ $t('buttons.ok') }}
           </q-btn>
         </q-card-actions>

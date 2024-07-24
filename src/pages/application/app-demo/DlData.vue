@@ -44,7 +44,7 @@
 
 <script>
 import { defineComponent } from 'vue';
-import SendData from './dialogs/SendData';
+import SendData from './dialogs/SendData.vue';
 
 export default defineComponent({
   name: 'DlDataPage',

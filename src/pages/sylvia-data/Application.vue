@@ -17,8 +17,8 @@
 
 <script>
 import { defineComponent } from 'vue';
-import DlDataPage from './ApplicationDlData';
-import UlDataPage from './ApplicationUlData';
+import DlDataPage from './ApplicationDlData.vue';
+import UlDataPage from './ApplicationUlData.vue';
 
 export default defineComponent({
   name: 'ApplicationPage',

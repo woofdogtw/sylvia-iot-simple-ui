@@ -4,10 +4,10 @@
       v-model="selectUnit"
       emit-value
       map-options
-      option-value="unitId"
       option-label="code"
-      :options="data.unitList"
+      option-value="unitId"
       :label="$t('deviceRoute.unit')"
+      :options="data.unitList"
       @update:model-value="getApplicationList"
     />
 
@@ -15,8 +15,8 @@
 
     <q-pagination
       v-model="curPage"
-      :max="data.totalPages"
       input
+      :max="data.totalPages"
       @update:model-value="onPageUpdate"
     />
 
@@ -50,7 +50,7 @@
     <div class="col-xs-4 col-sm-5 col-md-5"></div>
   </div>
 
-  <q-list class="padding-zero" no-border highlight separator>
+  <q-list class="padding-zero" highlight no-border separator>
     <q-item v-for="(item, i) in data.list" :key="i">
       <div class="col-xs-2 col-sm-2 col-md-2 wrap">{{ item.networkCode }}</div>
       <div class="col-xs-4 col-sm-3 col-md-3 wrap">{{ item.networkAddr }}</div>
@@ -72,39 +72,39 @@
   </q-list>
 
   <q-dialog v-model="showAdd">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('deviceRoute.titleAdd') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-select
           v-model="input.deviceId"
           emit-value
           map-options
           option-value="deviceId"
+          :label="$t('deviceRoute.device')"
           :option-label="
             (item) =>
               input.deviceId ? item.networkCode + '-' + item.networkAddr : ''
           "
           :options="data.deviceList"
-          :label="$t('deviceRoute.device')"
         />
         <q-select
           v-model="input.applicationId"
           emit-value
           map-options
-          option-value="applicationId"
           option-label="code"
-          :options="data.applicationList"
+          option-value="applicationId"
           :label="$t('deviceRoute.application')"
+          :options="data.applicationList"
         />
       </q-card-section>
 
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onAddOk">
+        <q-btn color="primary" flat v-close-popup @click="onAddOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -113,12 +113,12 @@
   </q-dialog>
 
   <q-dialog v-model="showDelete">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('deviceRoute.titleDelete') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           {{ $t('deviceRoute.deleteText') }}
         </q-card-section>
@@ -130,7 +130,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onDeleteOk">
+        <q-btn color="primary" flat v-close-popup @click="onDeleteOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>

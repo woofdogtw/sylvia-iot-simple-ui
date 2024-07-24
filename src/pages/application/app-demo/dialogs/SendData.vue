@@ -5,7 +5,7 @@
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-input v-model="networkCode" :label="$t('appDemo.networkCode')" />
 
         <q-input v-model="networkAddr" :label="$t('appDemo.networkAddr')" />

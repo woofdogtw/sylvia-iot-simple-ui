@@ -1,9 +1,9 @@
 <template>
   <div class="row items-center">
     <q-card
+      class="col-xs-12 col-sm-8 col-md-6"
       v-for="(item, i) in data.list"
       :key="i"
-      class="col-xs-12 col-sm-8 col-md-6"
     >
       <q-card-section class="row items-center">
         <q-toolbar>
@@ -102,20 +102,20 @@
   </div>
 
   <q-dialog v-model="showEdit">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('router.titleEditWan') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-select
           v-model="input.showType"
           emit-value
           map-options
-          option-value="value"
           option-label="label"
-          :options="showTypes"
+          option-value="value"
           :label="$t('router.wanType')"
+          :options="showTypes"
         />
         <q-card-section>
           <q-input
@@ -149,13 +149,13 @@
           <q-input
             v-model="input.pppoe.password"
             v-if="input.showType === 'typePppoe'"
-            :type="isPassword ? 'password' : 'text'"
             :label="$t('router.password')"
+            :type="isPassword ? 'password' : 'text'"
           >
             <template v-slot:append>
               <q-icon
-                :name="isPassword ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
+                :name="isPassword ? 'visibility_off' : 'visibility'"
                 @click="isPassword = !isPassword"
               />
             </template>
@@ -166,7 +166,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onEditOk">
+        <q-btn color="primary" flat v-close-popup @click="onEditOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>

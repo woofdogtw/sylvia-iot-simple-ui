@@ -1,12 +1,12 @@
 <template>
   <q-dialog @show="onShow" @hide="onHide">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('network.titleStats') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
-        <q-markup-table flat dense>
+      <q-card-section class="scroll" style="max-height: 50vh">
+        <q-markup-table dense flat>
           <thead>
             <tr>
               <th>{{ $t('network.statsQueue') }}</th>
@@ -30,7 +30,7 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn flat color="primary" v-close-popup>
+          <q-btn color="primary" flat v-close-popup>
             {{ $t('buttons.ok') }}
           </q-btn>
         </q-card-actions>
