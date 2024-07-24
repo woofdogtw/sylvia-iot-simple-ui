@@ -9,8 +9,8 @@
         <q-list>
           <q-item>
             <q-radio
-              dense
               v-model="language"
+              dense
               val="en-us"
               :label="$t('language.en-us')"
               @update:model-value="setLanguage"
@@ -19,8 +19,8 @@
 
           <q-item>
             <q-radio
-              dense
               v-model="language"
+              dense
               val="zh-tw"
               :label="$t('language.zh-tw')"
               @update:model-value="setLanguage"

@@ -4,10 +4,10 @@
       v-model="selectUnit"
       emit-value
       map-options
-      option-value="unitId"
       option-label="code"
-      :options="data.unitList"
+      option-value="unitId"
       :label="$t('application.unit')"
+      :options="data.unitList"
       @update:model-value="getCount"
     />
 
@@ -17,8 +17,8 @@
 
     <q-pagination
       v-model="curPage"
-      :max="data.totalPages"
       input
+      :max="data.totalPages"
       @update:model-value="onPageUpdate"
     />
 
@@ -48,7 +48,7 @@
     <div class="col-xs-4 col-sm-5 col-md-5"></div>
   </div>
 
-  <q-list class="padding-zero" no-border highlight separator>
+  <q-list class="padding-zero" highlight no-border separator>
     <q-item v-for="(item, i) in data.list" :key="i">
       <div class="col-xs-2 col-sm-2 col-md-2 wrap">{{ item.code }}</div>
       <div class="col-xs-4 col-sm-3 col-md-3 wrap">{{ item.name }}</div>
@@ -106,12 +106,12 @@
   </q-list>
 
   <q-dialog v-model="showAdd">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('application.titleAdd') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           <q-input v-model="input.code" :label="$t('application.code')" />
         </q-card-section>
@@ -147,7 +147,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onAddOk">
+        <q-btn color="primary" flat v-close-popup @click="onAddOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -156,12 +156,12 @@
   </q-dialog>
 
   <q-dialog v-model="showEdit">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('application.titleEdit') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           <q-input
             v-model="input.unitCode"
@@ -170,14 +170,14 @@
               (store.getAccountInfo().roles.admin ||
                 store.getAccountInfo().roles.manager)
             "
-            disable
+            readonly
             :label="$t('application.unit')"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.code"
-            disable
+            readonly
             :label="$t('application.code')"
           />
         </q-card-section>
@@ -211,6 +211,7 @@
         <q-card-section>
           <q-input
             v-model="input.password"
+            type="password"
             :label="$t('application.password')"
           />
         </q-card-section>
@@ -219,7 +220,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onEditOk">
+        <q-btn color="primary" flat v-close-popup @click="onEditOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -228,12 +229,12 @@
   </q-dialog>
 
   <q-dialog v-model="showDelete">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('application.titleDelete') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           {{ $t('application.deleteText') }}
         </q-card-section>
@@ -245,7 +246,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onDeleteOk">
+        <q-btn color="primary" flat v-close-popup @click="onDeleteOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -254,12 +255,12 @@
   </q-dialog>
 
   <q-dialog v-model="showDetail">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('application.titleDetail') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           <q-input
             v-model="input.unitCode"
@@ -268,59 +269,59 @@
               (store.getAccountInfo().roles.admin ||
                 store.getAccountInfo().roles.manager)
             "
-            disable
+            readonly
             :label="$t('application.unit')"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.applicationId"
-            disable
+            readonly
             :label="$t('application.applicationId')"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.code"
-            disable
+            readonly
             :label="$t('application.code')"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.hostUri"
-            disable
+            readonly
             :label="$t('application.host')"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.name"
-            disable
+            readonly
             :label="$t('application.name')"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.info"
+            readonly
             type="textarea"
-            disable
             :label="$t('application.info')"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.ttl"
+            readonly
             type="number"
-            disable
             :label="$t('application.ttl')"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.length"
+            readonly
             type="number"
-            disable
             :label="$t('application.length')"
           />
         </q-card-section>
@@ -329,7 +330,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup>
+        <q-btn color="primary" flat v-close-popup>
           {{ $t('buttons.ok') }}
         </q-btn>
       </q-card-actions>
@@ -338,8 +339,8 @@
 
   <ApplicationSendData
     v-model="showSendData"
-    :unitId="input.unitId"
     :applicationId="input.applicationId"
+    :unitId="input.unitId"
   />
 
   <ApplicationStats v-model="showStats" :applicationId="input.applicationId" />
@@ -349,8 +350,8 @@
 import { defineComponent } from 'vue';
 import qs from 'qs';
 import { useStore } from 'stores/system';
-import ApplicationSendData from './dialogs/ApplicationSendData';
-import ApplicationStats from './dialogs/ApplicationStats';
+import ApplicationSendData from './dialogs/ApplicationSendData.vue';
+import ApplicationStats from './dialogs/ApplicationStats.vue';
 
 export default defineComponent({
   name: 'ApplicationPage',

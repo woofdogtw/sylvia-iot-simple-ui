@@ -62,12 +62,12 @@
   </div>
 
   <q-dialog v-model="showEdit">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('router.titleEditLan') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           <q-input
             v-model="input.conf4.address"
@@ -98,7 +98,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onEditOk">
+        <q-btn color="primary" flat v-close-popup @click="onEditOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -112,7 +112,7 @@
 <script>
 import { defineComponent } from 'vue';
 import { useStore } from 'stores/system';
-import NetLanLeases from './dialogs/NetLanLeases';
+import NetLanLeases from './dialogs/NetLanLeases.vue';
 
 export default defineComponent({
   name: 'LanPage',

@@ -61,12 +61,12 @@
   </div>
 
   <q-dialog v-model="showEdit">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('router.titleEditWlan') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           <q-checkbox
             v-model="input.enable"
@@ -96,8 +96,8 @@
           >
             <template v-slot:append>
               <q-icon
-                :name="isPassword ? 'visibility_off' : 'visibility'"
                 class="cursor-pointer"
+                :name="isPassword ? 'visibility_off' : 'visibility'"
                 @click="isPassword = !isPassword"
               />
             </template>
@@ -108,7 +108,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onEditOk">
+        <q-btn color="primary" flat v-close-popup @click="onEditOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -122,7 +122,7 @@ import { defineComponent } from 'vue';
 import { useStore } from 'stores/system';
 
 export default defineComponent({
-  name: 'LanPage',
+  name: 'WlanPage',
 
   beforeUnmount() {
     if (this.timer) {

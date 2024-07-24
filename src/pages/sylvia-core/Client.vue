@@ -4,8 +4,8 @@
 
     <q-pagination
       v-model="curPage"
-      :max="data.totalPages"
       input
+      :max="data.totalPages"
       @update:model-value="onPageUpdate"
     />
 
@@ -29,7 +29,7 @@
     <div class="col-xs-4 col-sm-6 col-md-6"></div>
   </div>
 
-  <q-list class="padding-zero" no-border highlight separator>
+  <q-list class="padding-zero" highlight no-border separator>
     <q-item v-for="(item, i) in data.list" :key="i">
       <div class="col-xs-2 col-sm-2 col-md-2 wrap">{{ item.clientId }}</div>
       <div class="col-xs-2 col-sm-1 col-md-1 wrap">
@@ -69,12 +69,12 @@
   </q-list>
 
   <q-dialog v-model="showAdd">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('client.titleAdd') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           <q-select
             v-model="input.userId"
@@ -82,10 +82,10 @@
               store.getAccountInfo().roles && store.getAccountInfo().roles.admin
             "
             emit-value
-            option-value="userId"
             option-label="name"
-            :options="data.userList"
+            option-value="userId"
             :label="$t('client.user')"
+            :options="data.userList"
           />
         </q-card-section>
         <q-card-section>
@@ -114,7 +114,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onAddOk">
+        <q-btn color="primary" flat v-close-popup @click="onAddOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -123,12 +123,12 @@
   </q-dialog>
 
   <q-dialog v-model="showEdit">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('client.titleEdit') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section v-if="input.clientSecret">
           <q-checkbox
             v-model="input.genSecret"
@@ -155,7 +155,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onEditOk">
+        <q-btn color="primary" flat v-close-popup @click="onEditOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -164,12 +164,12 @@
   </q-dialog>
 
   <q-dialog v-model="showDelete">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('client.titleDelete') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           {{ $t('client.deleteText') }}
         </q-card-section>
@@ -181,7 +181,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onDeleteOk">
+        <q-btn color="primary" flat v-close-popup @click="onDeleteOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -190,65 +190,65 @@
   </q-dialog>
 
   <q-dialog v-model="showDetail">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('client.titleDetail') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           <q-select
             v-model="input.userId"
             v-if="
               store.getAccountInfo().roles && store.getAccountInfo().roles.admin
             "
-            option-value="userId"
             option-label="name"
-            disabled
-            :options="data.userList"
+            option-value="userId"
+            readonly
             :label="$t('client.user')"
+            :options="data.userList"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.clientId"
-            disable
+            readonly
             :label="$t('client.clientId')"
           />
         </q-card-section>
         <q-card-section v-if="input.clientSecret">
           <q-input
             v-model="input.clientSecret"
-            disable
+            readonly
             :label="$t('client.clientSecret')"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.redirectUris"
-            disable
+            readonly
             :label="$t('client.redirectUris')"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.scopes"
-            disable
+            readonly
             :label="$t('client.scopes')"
           />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.name" disable :label="$t('client.name')" />
+          <q-input v-model="input.name" readonly :label="$t('client.name')" />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.image" disable :label="$t('client.image')" />
+          <q-input v-model="input.image" readonly :label="$t('client.image')" />
         </q-card-section>
       </q-card-section>
 
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup>
+        <q-btn color="primary" flat v-close-popup>
           {{ $t('buttons.ok') }}
         </q-btn>
       </q-card-actions>

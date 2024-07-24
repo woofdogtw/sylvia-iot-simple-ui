@@ -17,8 +17,8 @@
 
 <script>
 import { defineComponent } from 'vue';
-import DlDataPage from './NetworkDlData';
-import UlDataPage from './NetworkUlData';
+import DlDataPage from './NetworkDlData.vue';
+import UlDataPage from './NetworkUlData.vue';
 
 export default defineComponent({
   name: 'NetworkPage',

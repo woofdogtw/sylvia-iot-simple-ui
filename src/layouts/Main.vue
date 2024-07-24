@@ -12,21 +12,29 @@
         />
 
         <q-toolbar-title>
-          {{ $t('progName') }}
+          {{ $t('progName') + ` v${version}` }}
         </q-toolbar-title>
 
-        <div>
+        <div class="q-ma-xs">
+          <div>{{ serviceInfo.name }}</div>
+
+          <div>{{ serviceInfo.version ? `v${serviceInfo.version}` : '' }}</div>
+        </div>
+
+        <div></div>
+
+        <div class="q-ma-xs">
           <div>{{ dateStr(time) }}</div>
 
           <div>{{ timeStr(time) }}</div>
         </div>
 
         <q-btn
+          v-if="store.getTokens().accessToken"
           flat
           icon="account_circle"
           no-cap
           :label="accountInfo.name"
-          v-if="store.getTokens().accessToken"
         >
           <q-popup-proxy>
             <q-card>
@@ -46,13 +54,13 @@
           </q-popup-proxy>
         </q-btn>
 
-        <q-btn flat no-caps v-else @click="$root.signin">
+        <q-btn v-else flat no-caps @click="$root.signin">
           {{ $t('signin') }}
         </q-btn>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer v-model="leftDrawerOpen" bordered show-if-above>
       <q-list>
         <q-toolbar>
           <q-toolbar-title>
@@ -286,6 +294,7 @@ import { defineComponent, ref } from 'vue';
 import { createI18n } from 'vue-i18n';
 import strftime from 'strftime';
 import { useStore } from 'stores/system';
+import { version } from '../../package.json';
 
 const DEFAULT_LANGUAGE = 'en-us';
 
@@ -302,6 +311,7 @@ export default defineComponent({
     }
 
     this.accountInfo = this.store.getAccountInfo();
+    this.getVersion();
     this.getTokenInfo();
     this.getSysTime();
   },
@@ -309,11 +319,30 @@ export default defineComponent({
   data() {
     return {
       accountInfo: {},
+      serviceInfo: {
+        name: '',
+        version: '',
+      },
       time: new Date('invalid'),
+      version,
     };
   },
 
   methods: {
+    getVersion() {
+      let opts = {
+        method: 'GET',
+        url: `${this.$root.config.coremgr.base}/../version`,
+      };
+      let self = this;
+      this.$axios(opts)
+        .then((resp) => {
+          self.serviceInfo = resp.data.data;
+        })
+        .catch((err) => {
+          self.$root.errorHandler(err, self.getTokenInfo);
+        });
+    },
     getTokenInfo() {
       let tokens = this.store.getTokens();
       if (!tokens.accessToken) {

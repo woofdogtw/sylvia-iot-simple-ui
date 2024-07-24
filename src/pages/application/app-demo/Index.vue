@@ -20,9 +20,9 @@
 
 <script>
 import { defineComponent } from 'vue';
-import GaugePage from './Gauge';
-import UlDataPage from './UlData';
-import DlDataPage from './DlData';
+import GaugePage from './Gauge.vue';
+import UlDataPage from './UlData.vue';
+import DlDataPage from './DlData.vue';
 
 export default defineComponent({
   name: 'IndexPage',

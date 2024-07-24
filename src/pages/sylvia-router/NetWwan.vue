@@ -8,9 +8,9 @@
           <q-space />
 
           <q-btn
-            flat
-            color="primary"
             v-if="data.settings.enable"
+            color="primary"
+            flat
             :disable="loading"
             @click="onDisconnectClick"
           >
@@ -76,9 +76,9 @@
       </q-card-section>
 
       <q-card-section
+        class="row items-center"
         v-for="(item, i) in data.list"
         :key="i"
-        class="row items-center"
       >
         <q-separator />
 
@@ -91,9 +91,9 @@
         <div class="col-2">{{ item.signal }}</div>
 
         <q-btn
-          flat
-          color="primary"
           v-if="!data.settings.enable"
+          color="primary"
+          flat
           :disable="loading"
           @click="onConnectClick(item)"
         >
@@ -104,7 +104,7 @@
   </div>
 
   <q-dialog v-model="showConnect">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section
         >{{ $t('router.titleConnect') }} {{ data.input.ssid }}</q-card-section
       >
@@ -114,13 +114,13 @@
       <q-card-section>
         <q-input
           v-model="input.password"
-          :type="isPassword ? 'password' : 'text'"
           :label="$t('router.password')"
+          :type="isPassword ? 'password' : 'text'"
         >
           <template v-slot:append>
             <q-icon
-              :name="isPassword ? 'visibility_off' : 'visibility'"
               class="cursor-pointer"
+              :name="isPassword ? 'visibility_off' : 'visibility'"
               @click="isPassword = !isPassword"
             />
           </template>
@@ -130,7 +130,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onConnectOk">
+        <q-btn color="primary" flat v-close-popup @click="onConnectOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>

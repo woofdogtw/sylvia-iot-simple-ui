@@ -2,8 +2,8 @@
   <h4>{{ $t('router.systemUsage') }}</h4>
 
   <div class="row items-center">
-    <v-chart class="chart" :option="cpuBar" v-if="cpuUseBar" />
-    <v-chart class="chart" :option="cpuGauge" v-if="!cpuUseBar" />
+    <v-chart class="chart" v-if="cpuUseBar" :option="cpuBar" />
+    <v-chart class="chart" v-if="!cpuUseBar" :option="cpuGauge" />
     <v-chart class="chart" :option="memoryGauge" />
     <v-chart class="chart" :option="diskGauge" />
   </div>

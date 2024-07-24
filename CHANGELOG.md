@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.2 - 2024-07-24
+
+### Changed
+
+- Display UI and service version.
+- Refine dialog inputs by replacing disabled with read-only.
+- Modify the coding style of Vue template property order.
+- Port webpack to vite.
+- Update dependencies.
+
 ## 0.1.1 - 2024-05-31
 
 ### Changed

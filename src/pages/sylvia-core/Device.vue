@@ -4,10 +4,10 @@
       v-model="selectUnit"
       emit-value
       map-options
-      option-value="unitId"
       option-label="code"
-      :options="data.unitList"
+      option-value="unitId"
       :label="$t('device.unit')"
+      :options="data.unitList"
       @update:model-value="getNetworkList"
     />
 
@@ -17,8 +17,8 @@
 
     <q-pagination
       v-model="curPage"
-      :max="data.totalPages"
       input
+      :max="data.totalPages"
       @update:model-value="onPageUpdate"
     />
 
@@ -55,7 +55,7 @@
     <div class="col-xs-2 col-sm-3 col-md-3"></div>
   </div>
 
-  <q-list class="padding-zero" no-border highlight separator>
+  <q-list class="padding-zero" highlight no-border separator>
     <q-item v-for="(item, i) in data.list" :key="i">
       <div class="col-xs-2 col-sm-2 col-md-2 wrap">{{ item.networkCode }}</div>
       <div class="col-xs-2 col-sm-2 col-md-2 wrap">{{ item.networkAddr }}</div>
@@ -94,20 +94,20 @@
   </q-list>
 
   <q-dialog v-model="showAdd">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('device.titleAdd') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-select
           v-model="input.networkId"
           emit-value
           map-options
-          option-value="networkId"
           option-label="code"
-          :options="data.networkList"
+          option-value="networkId"
           :label="$t('device.network')"
+          :options="data.networkList"
         />
         <q-card-section>
           <q-input
@@ -133,7 +133,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onAddOk">
+        <q-btn color="primary" flat v-close-popup @click="onAddOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -142,20 +142,20 @@
   </q-dialog>
 
   <q-dialog v-model="showEdit">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('device.titleEdit') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-select
           v-model="input.networkId"
           emit-value
           map-options
-          option-value="networkId"
           option-label="code"
-          :options="data.networkList"
+          option-value="networkId"
           :label="$t('device.network')"
+          :options="data.networkList"
         />
         <q-card-section>
           <q-input
@@ -181,7 +181,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onEditOk">
+        <q-btn color="primary" flat v-close-popup @click="onEditOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -190,12 +190,12 @@
   </q-dialog>
 
   <q-dialog v-model="showDelete">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('device.titleDelete') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           {{ $t('device.deleteText') }}
         </q-card-section>
@@ -207,7 +207,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onDeleteOk">
+        <q-btn color="primary" flat v-close-popup @click="onDeleteOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -216,44 +216,44 @@
   </q-dialog>
 
   <q-dialog v-model="showDetail">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('device.titleDetail') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-select
           v-model="input.networkId"
           emit-value
           map-options
-          disable
-          option-value="networkId"
           option-label="code"
-          :options="data.networkList"
+          option-value="networkId"
+          readonly
           :label="$t('device.network')"
+          :options="data.networkList"
         />
         <q-card-section>
           <q-input
             v-model="input.networkAddr"
-            disable
+            readonly
             :label="$t('device.networkAddr')"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.profile"
-            disable
+            readonly
             :label="$t('device.profile')"
           />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.name" disable :label="$t('device.name')" />
+          <q-input v-model="input.name" readonly :label="$t('device.name')" />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.info"
+            readonly
             type="textarea"
-            disable
             :label="$t('device.info')"
           />
         </q-card-section>
@@ -262,7 +262,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup>
+        <q-btn color="primary" flat v-close-popup>
           {{ $t('buttons.ok') }}
         </q-btn>
       </q-card-actions>

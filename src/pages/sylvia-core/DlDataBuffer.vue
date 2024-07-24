@@ -4,10 +4,10 @@
       v-model="selectUnit"
       emit-value
       map-options
-      option-value="unitId"
       option-label="code"
-      :options="data.unitList"
+      option-value="unitId"
       :label="$t('dldataBuffer.unit')"
+      :options="data.unitList"
       @update:model-value="getApplicationList"
     />
 
@@ -15,8 +15,8 @@
 
     <q-pagination
       v-model="curPage"
-      :max="data.totalPages"
       input
+      :max="data.totalPages"
       @update:model-value="onPageUpdate"
     />
 
@@ -62,12 +62,12 @@
   </q-list>
 
   <q-dialog v-model="showDelete">
-    <q-card>
+    <q-card style="width: 50%">
       <q-card-section>{{ $t('dldataBuffer.titleDelete') }}</q-card-section>
 
       <q-separator />
 
-      <q-card-section style="max-height: 50vh" class="scroll">
+      <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
           {{ $t('dldataBuffer.deleteText') }}
         </q-card-section>
@@ -79,7 +79,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat color="primary" v-close-popup @click="onDeleteOk">
+        <q-btn color="primary" flat v-close-popup @click="onDeleteOk">
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
