@@ -382,6 +382,22 @@
     "message": "Detail message"
   },
 
+  "inputError": {
+    "empty": "Cannot be blank",
+    "info": "Must be JSON object",
+    "code": "Must be `A-Z, a-z, 0-9, -, _` and start with alpha-numeric",
+    "queueUri": "Must be valid URI and start with amqp://, amqps://, mqtt:// or mqtts://",
+    "zeroPositiveInt": "Must be zero or positive integer",
+    "userAccount": "Must be E-mail address format or `A-Z, a-z, 0-9, -, _` and start with alpha-numeric",
+    "clientRedirectUris": "Must be valid URI. Use comma to separate multiple URIs",
+    "clientScopes": "Must be `A-Z, a-z, 0-9, .` and start with alpha-numeric. Use comma to separate multiple scopes",
+    "deviceNetworkId": "Please select a network",
+    "rotueApplicationId": "Please select an application",
+    "routeNetworkId": "Please select a network",
+    "rotueDeviceId": "Please select a device",
+    "payloadHex": "Must be hexadecimal string"
+  },
+
   "apiError": {
     "err_auth": "Authorization error. Re-login again.",
     "err_db": "Database error. Please try again.",

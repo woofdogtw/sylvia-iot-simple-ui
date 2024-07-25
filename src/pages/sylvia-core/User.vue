@@ -71,7 +71,7 @@
     </q-item>
   </q-list>
 
-  <q-dialog v-model="showAdd">
+  <q-dialog v-model="showAdd" @hide="onHide">
     <q-card style="width: 50%">
       <q-card-section>{{ $t('user.titleAdd') }}</q-card-section>
 
@@ -79,13 +79,22 @@
 
       <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
-          <q-input v-model="input.account" :label="$t('user.account')" />
+          <q-input
+            v-model="input.account"
+            :error="inputError.account !== ''"
+            :error-message="inputError.account"
+            :label="$t('user.account')"
+            @update:model-value="validateAccount"
+          />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.password"
             type="password"
+            :error="inputError.password !== ''"
+            :error-message="inputError.password"
             :label="$t('user.password')"
+            @update:model-value="validatePassword"
           />
         </q-card-section>
         <q-card-section>
@@ -95,7 +104,10 @@
           <q-input
             v-model="input.info"
             type="textarea"
+            :error="inputError.info !== ''"
+            :error-message="inputError.info"
             :label="$t('user.info')"
+            @update:model-value="validateInfo"
           />
         </q-card-section>
       </q-card-section>
@@ -103,7 +115,13 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat v-close-popup @click="onAddOk">
+        <q-btn
+          color="primary"
+          flat
+          v-close-popup
+          :disable="!validateInput()"
+          @click="onAddOk"
+        >
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -111,7 +129,7 @@
     </q-card>
   </q-dialog>
 
-  <q-dialog v-model="showEdit">
+  <q-dialog v-model="showEdit" @hide="onHide">
     <q-card style="width: 50%">
       <q-card-section>{{ $t('user.titleEdit') }}</q-card-section>
 
@@ -148,7 +166,10 @@
           <q-input
             v-model="input.info"
             type="textarea"
+            :error="inputError.info !== ''"
+            :error-message="inputError.info"
             :label="$t('user.info')"
+            @update:model-value="validateInfo"
           />
         </q-card-section>
       </q-card-section>
@@ -156,7 +177,13 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat v-close-popup @click="onEditOk">
+        <q-btn
+          color="primary"
+          flat
+          v-close-popup
+          :disable="!validateInput()"
+          @click="onEditOk"
+        >
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -287,6 +314,11 @@ export default defineComponent({
         name: '',
         info: '',
       },
+      inputError: {
+        account: '',
+        password: '',
+        info: '',
+      },
       search: '',
       curPage: 1,
       pageSize: 20,
@@ -318,11 +350,7 @@ export default defineComponent({
       if (this.input.name) {
         body.data.name = this.input.name;
       }
-      if (
-        this.input.info &&
-        this.input.info.startsWith('{') &&
-        this.input.info.endsWith('}')
-      ) {
+      if (this.$root.isJsonObject(this.input.info)) {
         try {
           let info = JSON.parse(this.input.info);
           body.data.info = info;
@@ -373,11 +401,7 @@ export default defineComponent({
       if (this.input.password) {
         body.data.password = this.input.password;
       }
-      if (
-        this.input.info &&
-        this.input.info.startsWith('{') &&
-        this.input.info.endsWith('}')
-      ) {
+      if (this.$root.isJsonObject(this.input.info)) {
         try {
           let info = JSON.parse(this.input.info);
           body.data.info = info;
@@ -453,6 +477,12 @@ export default defineComponent({
       this.curPage = page;
       this.getCount();
     },
+    onHide() {
+      this.inputError = {
+        account: '',
+        info: '',
+      };
+    },
     getCount() {
       let tokens = this.store.getTokens();
       if (!tokens.accessToken) {
@@ -485,6 +515,7 @@ export default defineComponent({
             self.curPage = self.data.totalPages;
           }
           if (self.data.count === 0) {
+            self.data.list = [];
             return;
           }
           self.getList();
@@ -533,7 +564,7 @@ export default defineComponent({
         });
     },
     prepareInput(data) {
-      return {
+      const input = {
         userId: data ? data.userId : '',
         account: data ? data.account : '',
         password: '',
@@ -544,8 +575,12 @@ export default defineComponent({
           user: data && data.roles && data.roles.user ? true : false,
         },
         name: data && data.name ? data.name : '',
-        info: data && data.info ? JSON.stringify(data.info, null, '  ') : '',
+        info: data && data.info ? JSON.stringify(data.info, null, '  ') : '{}',
       };
+      this.validateAccount(input.account);
+      this.validatePassword(input.password);
+      this.validateInfo(input.info);
+      return input;
     },
     rolesToDisplay(roles) {
       if (!roles) {
@@ -558,6 +593,30 @@ export default defineComponent({
         }
       }
       return list.join(', ');
+    },
+    validateInput() {
+      return !(
+        this.inputError.account ||
+        this.inputError.password ||
+        this.inputError.info
+      );
+    },
+    validateAccount(value) {
+      const v = value && value.toLowerCase();
+      const emailRegEx =
+        /^([a-z0-9_+]([a-z0-9_+.]*[a-z0-9_+])?)@([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6})$/;
+      const valid = emailRegEx.test(v) || /^[a-z0-9]{1}[a-z0-9-_]*$/.test(v);
+      this.inputError.account = valid ? '' : this.$t('inputError.userAccount');
+      return valid;
+    },
+    validatePassword(value) {
+      const valid = !(!this.input.userId && !value);
+      this.inputError.password = valid ? '' : this.$t('inputError.empty');
+    },
+    validateInfo(value) {
+      const valid = this.$root.isJsonObject(value);
+      this.inputError.info = valid ? '' : this.$t('inputError.info');
+      return valid;
     },
   },
 

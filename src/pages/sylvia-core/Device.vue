@@ -30,15 +30,7 @@
       flat
       icon="add"
       round
-      :disable="
-        loading ||
-        (!(
-          store.getAccountInfo().roles &&
-          (store.getAccountInfo().roles.admin ||
-            store.getAccountInfo().roles.manager)
-        ) &&
-          !selectUnit)
-      "
+      :disable="loading || !selectUnit"
       @click="onAddClick"
     >
       <q-tooltip>{{ $t('buttons.add') }}</q-tooltip>
@@ -93,7 +85,7 @@
     </q-item>
   </q-list>
 
-  <q-dialog v-model="showAdd">
+  <q-dialog v-model="showAdd" @hide="onHide">
     <q-card style="width: 50%">
       <q-card-section>{{ $t('device.titleAdd') }}</q-card-section>
 
@@ -106,17 +98,29 @@
           map-options
           option-label="code"
           option-value="networkId"
+          :error="inputError.networkId !== ''"
+          :error-message="inputError.networkId"
           :label="$t('device.network')"
           :options="data.networkList"
+          @update:model-value="validateNetworkId"
         />
         <q-card-section>
           <q-input
             v-model="input.networkAddr"
+            :error="inputError.networkAddr !== ''"
+            :error-message="inputError.networkAddr"
             :label="$t('device.networkAddr')"
+            @update:model-value="validateNetworkAddr"
           />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.profile" :label="$t('device.profile')" />
+          <q-input
+            v-model="input.profile"
+            :error="inputError.profile !== ''"
+            :error-message="inputError.profile"
+            :label="$t('device.profile')"
+            @update:model-value="validateProfile"
+          />
         </q-card-section>
         <q-card-section>
           <q-input v-model="input.name" :label="$t('device.name')" />
@@ -125,7 +129,10 @@
           <q-input
             v-model="input.info"
             type="textarea"
+            :error="inputError.info !== ''"
+            :error-message="inputError.info"
             :label="$t('device.info')"
+            @update:model-value="validateInfo"
           />
         </q-card-section>
       </q-card-section>
@@ -133,7 +140,13 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat v-close-popup @click="onAddOk">
+        <q-btn
+          color="primary"
+          flat
+          v-close-popup
+          :disable="!validateInput()"
+          @click="onAddOk"
+        >
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -141,7 +154,7 @@
     </q-card>
   </q-dialog>
 
-  <q-dialog v-model="showEdit">
+  <q-dialog v-model="showEdit" @hide="onHide">
     <q-card style="width: 50%">
       <q-card-section>{{ $t('device.titleEdit') }}</q-card-section>
 
@@ -160,11 +173,20 @@
         <q-card-section>
           <q-input
             v-model="input.networkAddr"
+            :error="inputError.networkAddr !== ''"
+            :error-message="inputError.networkAddr"
             :label="$t('device.networkAddr')"
+            @update:model-value="validateNetworkAddr"
           />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.profile" :label="$t('device.profile')" />
+          <q-input
+            v-model="input.profile"
+            :error="inputError.profile !== ''"
+            :error-message="inputError.profile"
+            :label="$t('device.profile')"
+            @update:model-value="validateProfile"
+          />
         </q-card-section>
         <q-card-section>
           <q-input v-model="input.name" :label="$t('device.name')" />
@@ -173,7 +195,10 @@
           <q-input
             v-model="input.info"
             type="textarea"
+            :error="inputError.info !== ''"
+            :error-message="inputError.info"
             :label="$t('device.info')"
+            @update:model-value="validateInfo"
           />
         </q-card-section>
       </q-card-section>
@@ -181,7 +206,13 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat v-close-popup @click="onEditOk">
+        <q-btn
+          color="primary"
+          flat
+          v-close-popup
+          :disable="!validateInput()"
+          @click="onEditOk"
+        >
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -303,6 +334,12 @@ export default defineComponent({
         info: '',
         _srcData: null, // for edit
       },
+      inputError: {
+        networkId: '',
+        networkAddr: '',
+        profile: '',
+        info: '',
+      },
       selectUnit: '',
       search: '',
       curPage: 1,
@@ -330,18 +367,14 @@ export default defineComponent({
         data: {
           unitId: this.selectUnit,
           networkId: this.input.networkId,
-          networkAddr: this.input.networkAddr,
+          networkAddr: this.input.networkAddr.trim(),
           profile: this.input.profile,
         },
       };
       if (this.input.name) {
         body.data.name = this.input.name;
       }
-      if (
-        this.input.info &&
-        this.input.info.startsWith('{') &&
-        this.input.info.endsWith('}')
-      ) {
+      if (this.$root.isJsonObject(this.input.info)) {
         try {
           let info = JSON.parse(this.input.info);
           body.data.info = info;
@@ -386,17 +419,13 @@ export default defineComponent({
       if (this.input.networkId !== this.input._srcData.networkId) {
         body.data.networkId = this.input.networkId;
       }
-      if (this.input.networkAddr !== this.input._srcData.networkAddr) {
-        body.data.networkAddr = this.input.networkAddr;
+      if (this.input.networkAddr.trim() !== this.input._srcData.networkAddr) {
+        body.data.networkAddr = this.input.networkAddr.trim();
       }
       if (this.input.profile !== this.input._srcData.profile) {
         body.data.profile = this.input.profile;
       }
-      if (
-        this.input.info &&
-        this.input.info.startsWith('{') &&
-        this.input.info.endsWith('}')
-      ) {
+      if (this.$root.isJsonObject(this.input.info)) {
         try {
           let info = JSON.parse(this.input.info);
           body.data.info = info;
@@ -472,6 +501,14 @@ export default defineComponent({
       this.curPage = page;
       this.getCount();
     },
+    onHide() {
+      this.inputError = {
+        networkId: '',
+        networkAddr: '',
+        profile: '',
+        info: '',
+      };
+    },
     getCount() {
       let tokens = this.store.getTokens();
       if (!tokens.accessToken) {
@@ -507,6 +544,7 @@ export default defineComponent({
             self.curPage = self.data.totalPages;
           }
           if (self.data.count === 0) {
+            self.data.list = [];
             return;
           }
           self.getList();
@@ -646,7 +684,7 @@ export default defineComponent({
         });
     },
     prepareInput(data) {
-      return {
+      const input = {
         deviceId: data ? data.deviceId : '',
         unitId: data ? data.unitId : '',
         unitCode: data ? data.unitCode : '',
@@ -655,9 +693,44 @@ export default defineComponent({
         networkAddr: data ? data.networkAddr : '',
         profile: data ? data.profile : '',
         name: data && data.name ? data.name : '',
-        info: data && data.info ? JSON.stringify(data.info, null, '  ') : '',
+        info: data && data.info ? JSON.stringify(data.info, null, '  ') : '{}',
         _srcData: data ? JSON.parse(JSON.stringify(data)) : null,
       };
+      this.validateNetworkId(input.networkId);
+      this.validateNetworkAddr(input.networkAddr);
+      this.validateProfile(input.profile);
+      this.validateInfo(input.info);
+      return input;
+    },
+    validateInput() {
+      return !(
+        this.inputError.networkId ||
+        this.inputError.networkAddr ||
+        this.inputError.profile ||
+        this.inputError.info
+      );
+    },
+    validateNetworkId(value) {
+      const valid = !!value;
+      this.inputError.networkId = valid
+        ? ''
+        : this.$t('inputError.deviceNetworkId');
+      return valid;
+    },
+    validateNetworkAddr(value) {
+      const valid = !!value.trim();
+      this.inputError.networkAddr = valid ? '' : this.$t('inputError.empty');
+      return valid;
+    },
+    validateProfile(value) {
+      const valid = value === '' || this.$root.isCode(value);
+      this.inputError.profile = valid ? '' : this.$t('inputError.code');
+      return valid;
+    },
+    validateInfo(value) {
+      const valid = this.$root.isJsonObject(value);
+      this.inputError.info = valid ? '' : this.$t('inputError.info');
+      return valid;
     },
   },
 

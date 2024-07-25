@@ -100,6 +100,36 @@ export default defineComponent({
       this.store.setTokens('', '');
       this.store.setAccountInfo({});
     },
+    isCode(str) {
+      return /^[A-Za-z0-9]{1}[A-Za-z0-9_-]*$/.test(str);
+    },
+    isHex(str) {
+      return str.length % 2 === 0 && /^[A-Fa-f0-9]+$/.test(str);
+    },
+    isJsonObject(str) {
+      try {
+        const obj = JSON.parse(str);
+        return obj && typeof obj === 'object' && !Array.isArray(obj);
+      } catch (_e) {
+        return false;
+      }
+    },
+    isURL(str) {
+      let url;
+      try {
+        url = new URL(str);
+      } catch (_e) {
+        return false;
+      }
+      let pathname = url.pathname;
+      while (pathname.charAt(0) === '/') {
+        pathname = pathname.substring(1);
+      }
+      return !!url.protocol && (!!url.hostname || !!pathname);
+    },
+    isZeroPositiveInt(str) {
+      return /^[0-9]+$/.test(str);
+    },
     hex2str(hexStr) {
       return Buffer.from(hexStr, 'hex').toString() || hexStr;
     },

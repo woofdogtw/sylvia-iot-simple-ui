@@ -125,7 +125,7 @@
     </q-item>
   </q-list>
 
-  <q-dialog v-model="showAdd">
+  <q-dialog v-model="showAdd" @hide="onHide">
     <q-card style="width: 50%">
       <q-card-section>{{ $t('unit.titleAdd') }}</q-card-section>
 
@@ -148,7 +148,13 @@
           />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.code" :label="$t('unit.code')" />
+          <q-input
+            v-model="input.code"
+            :error="inputError.code !== ''"
+            :error-message="inputError.code"
+            :label="$t('unit.code')"
+            @update:model-value="validateCode"
+          />
         </q-card-section>
         <q-card-section>
           <q-input v-model="input.name" :label="$t('unit.name')" />
@@ -157,7 +163,10 @@
           <q-input
             v-model="input.info"
             type="textarea"
+            :error="inputError.info !== ''"
+            :error-message="inputError.info"
             :label="$t('unit.info')"
+            @update:model-value="validateInfo"
           />
         </q-card-section>
       </q-card-section>
@@ -165,7 +174,13 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat v-close-popup @click="onAddOk">
+        <q-btn
+          color="primary"
+          flat
+          v-close-popup
+          :disable="!validateInput()"
+          @click="onAddOk"
+        >
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -173,7 +188,7 @@
     </q-card>
   </q-dialog>
 
-  <q-dialog v-model="showEdit">
+  <q-dialog v-model="showEdit" @hide="onHide">
     <q-card style="width: 50%">
       <q-card-section>{{ $t('unit.titleEdit') }}</q-card-section>
 
@@ -205,7 +220,10 @@
           <q-input
             v-model="input.info"
             type="textarea"
+            :error="inputError.info !== ''"
+            :error-message="inputError.info"
             :label="$t('unit.info')"
+            @update:model-value="validateInfo"
           />
         </q-card-section>
       </q-card-section>
@@ -213,7 +231,13 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat v-close-popup @click="onEditOk">
+        <q-btn
+          color="primary"
+          flat
+          v-close-popup
+          :disable="!validateInput()"
+          @click="onEditOk"
+        >
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -328,6 +352,10 @@ export default defineComponent({
         name: '',
         info: '',
       },
+      inputError: {
+        code: '',
+        info: '',
+      },
       search: '',
       curPage: 1,
       pageSize: 20,
@@ -361,11 +389,7 @@ export default defineComponent({
       if (this.input.name) {
         body.data.name = this.input.name;
       }
-      if (
-        this.input.info &&
-        this.input.info.startsWith('{') &&
-        this.input.info.endsWith('}')
-      ) {
+      if (this.$root.isJsonObject(this.input.info)) {
         try {
           let info = JSON.parse(this.input.info);
           body.data.info = info;
@@ -410,11 +434,7 @@ export default defineComponent({
       if (this.input.ownerId) {
         body.data.ownerId = this.input.ownerId;
       }
-      if (
-        this.input.info &&
-        this.input.info.startsWith('{') &&
-        this.input.info.endsWith('}')
-      ) {
+      if (this.$root.isJsonObject(this.input.info)) {
         try {
           let info = JSON.parse(this.input.info);
           body.data.info = info;
@@ -490,6 +510,12 @@ export default defineComponent({
       this.curPage = page;
       this.getCount();
     },
+    onHide() {
+      this.inputError = {
+        code: '',
+        info: '',
+      };
+    },
     getCount() {
       let tokens = this.store.getTokens();
       if (!tokens.accessToken) {
@@ -522,6 +548,7 @@ export default defineComponent({
             self.curPage = self.data.totalPages;
           }
           if (self.data.count === 0) {
+            self.data.list = [];
             return;
           }
           self.getList();
@@ -609,14 +636,30 @@ export default defineComponent({
       return '';
     },
     prepareInput(data) {
-      return {
+      const input = {
         unitId: data ? data.unitId : '',
         code: data ? data.code : '',
         ownerId: data ? data.ownerId : '',
         memberIds: data ? data.memberIds.join(',') : '',
         name: data && data.name ? data.name : '',
-        info: data && data.info ? JSON.stringify(data.info, null, '  ') : '',
+        info: data && data.info ? JSON.stringify(data.info, null, '  ') : '{}',
       };
+      this.validateCode(input.code);
+      this.validateInfo(input.info);
+      return input;
+    },
+    validateInput() {
+      return !(this.inputError.code || this.inputError.info);
+    },
+    validateCode(value) {
+      const valid = this.$root.isCode(value);
+      this.inputError.code = valid ? '' : this.$t('inputError.code');
+      return valid;
+    },
+    validateInfo(value) {
+      const valid = this.$root.isJsonObject(value);
+      this.inputError.info = valid ? '' : this.$t('inputError.info');
+      return valid;
     },
   },
 
