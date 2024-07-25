@@ -382,6 +382,22 @@
     "message": "詳細訊息"
   },
 
+  "inputError": {
+    "empty": "不可為空",
+    "info": "必須是 JSON 物件",
+    "code": "必須是 `A-Z, a-z, 0-9, -, _` 並以數字或字母開頭",
+    "queueUri": "必須是合法 URI 格式且以 amqp://、amqps://、mqtt://、mqtts:// 開頭",
+    "zeroPositiveInt": "必須是 0 或正整數",
+    "userAccount": "必須是 E-mail地址或 `A-Z, a-z, 0-9, -, _` 並以數字或字母開頭",
+    "clientRedirectUris": "必須是合法 URI 格式。可用逗號隔開多個 URI",
+    "clientScopes": "必須是 `a-z, 0-9, .` 並以數字或字母開頭。可用逗號隔開多個權限",
+    "deviceNetworkId": "請選擇一個網路",
+    "routeApplicationId": "請選擇一個應用",
+    "routeNetworkId": "請選擇一個網路",
+    "routeDeviceId": "請選擇一個裝置",
+    "payloadHex": "必須是十六進制文字"
+  },
+
   "apiError": {
     "err_auth": "認證錯誤，請重新登入",
     "err_db": "資料庫發生問題，請再試一次",

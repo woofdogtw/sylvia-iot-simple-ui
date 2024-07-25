@@ -71,7 +71,7 @@
     </q-item>
   </q-list>
 
-  <q-dialog v-model="showAdd">
+  <q-dialog v-model="showAdd" @hide="onHide">
     <q-card style="width: 50%">
       <q-card-section>{{ $t('deviceRoute.titleAdd') }}</q-card-section>
 
@@ -83,12 +83,15 @@
           emit-value
           map-options
           option-value="deviceId"
+          :error="inputError.deviceId !== ''"
+          :error-message="inputError.deviceId"
           :label="$t('deviceRoute.device')"
           :option-label="
             (item) =>
               input.deviceId ? item.networkCode + '-' + item.networkAddr : ''
           "
           :options="data.deviceList"
+          @update:model-value="validateDeviceId"
         />
         <q-select
           v-model="input.applicationId"
@@ -96,15 +99,24 @@
           map-options
           option-label="code"
           option-value="applicationId"
+          :error="inputError.applicationId !== ''"
+          :error-message="inputError.applicationId"
           :label="$t('deviceRoute.application')"
           :options="data.applicationList"
+          @update:model-value="validateApplicationId"
         />
       </q-card-section>
 
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat v-close-popup @click="onAddOk">
+        <q-btn
+          color="primary"
+          flat
+          v-close-popup
+          :disable="!validateInput()"
+          @click="onAddOk"
+        >
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -170,6 +182,10 @@ export default defineComponent({
         networkId: '',
         networkCode: '',
         networkAddr: '',
+      },
+      inputError: {
+        applicationId: '',
+        deviceId: '',
       },
       selectUnit: '',
       curPage: 1,
@@ -261,6 +277,12 @@ export default defineComponent({
       this.curPage = page;
       this.getCount();
     },
+    onHide() {
+      this.inputError = {
+        applicationId: '',
+        deviceId: '',
+      };
+    },
     getCount() {
       let tokens = this.store.getTokens();
       if (!tokens.accessToken) {
@@ -293,6 +315,7 @@ export default defineComponent({
             self.curPage = self.data.totalPages;
           }
           if (self.data.count === 0) {
+            self.data.list = [];
             return;
           }
           self.getList();
@@ -468,7 +491,7 @@ export default defineComponent({
         });
     },
     prepareInput(data) {
-      return {
+      const input = {
         routeId: data ? data.routeId : '',
         unitId: data ? data.unitId : '',
         applicationId: data ? data.applicationId : '',
@@ -478,6 +501,26 @@ export default defineComponent({
         networkCode: data ? data.networkCode : '',
         networkAddr: data ? data.networkAddr : '',
       };
+      this.validateApplicationId(input.applicationId);
+      this.validateDeviceId(input.deviceId);
+      return input;
+    },
+    validateInput() {
+      return !(this.inputError.applicationId || this.inputError.deviceId);
+    },
+    validateApplicationId(value) {
+      const valid = !!value;
+      this.inputError.applicationId = valid
+        ? ''
+        : this.$t('inputError.routeApplicationId');
+      return valid;
+    },
+    validateDeviceId(value) {
+      const valid = !!value;
+      this.inputError.deviceId = valid
+        ? ''
+        : this.$t('inputError.routeDeviceId');
+      return valid;
     },
   },
 

@@ -11,8 +11,11 @@
           emit-value
           option-label="networkAddr"
           option-value="deviceId"
+          :error="inputError.deviceId !== ''"
+          :error-message="inputError.deviceId"
           :label="$t('network.sendDevice')"
           :options="data.deviceList"
+          @update:model-value="validateDeviceId"
         />
 
         <q-select
@@ -21,11 +24,18 @@
           :label="$t('network.sendPayloadType')"
           :option-label="(item) => $t('types.' + item)"
           :options="payloadTypes"
+          @update:model-value="(_value) => validatePayload(payload)"
         />
 
-        <q-input v-model="payload" :label="$t('network.sendPayload')" />
+        <q-input
+          v-model="payload"
+          :error="inputError.payload !== ''"
+          :error-message="inputError.payload"
+          :label="$t('network.sendPayload')"
+          @update:model-value="validatePayload"
+        />
 
-        <q-btn :disable="!deviceId || !payload" @click="onSendClick">
+        <q-btn :disable="!validateInput()" @click="onSendClick">
           {{ $t('buttons.send') }}
         </q-btn>
 
@@ -63,6 +73,10 @@ export default defineComponent({
       data: {
         deviceList: [],
       },
+      inputError: {
+        deviceId: '',
+        payload: '',
+      },
       deviceId: '',
       payload: '',
       payloadType: TYPE_STR,
@@ -73,6 +87,8 @@ export default defineComponent({
   methods: {
     onShow() {
       this.getDeviceList();
+      this.validateDeviceId(this.deviceId);
+      this.validatePayload(this.payload);
     },
     onSendClick() {
       let tokens = this.store.getTokens();
@@ -135,10 +151,28 @@ export default defineComponent({
           self.data.deviceList = list;
           self.deviceId =
             list.length > 0 ? self.data.deviceList[0].deviceId : '';
+          this.validateDeviceId(self.deviceId);
         })
         .catch((err) => {
           self.$root.errorHandler(err, self.getUnitList);
         });
+    },
+    validateInput() {
+      return !(this.inputError.deviceId || this.inputError.payload);
+    },
+    validateDeviceId(value) {
+      const valid = !!value;
+      this.inputError.deviceId = valid
+        ? ''
+        : this.$t('inputError.routeDeviceId');
+      return valid;
+    },
+    validatePayload(value) {
+      const valid = !(
+        this.payloadType === TYPE_HEX && !this.$root.isHex(value)
+      );
+      this.inputError.payload = valid ? '' : this.$t('inputError.payloadHex');
+      return valid;
     },
   },
 

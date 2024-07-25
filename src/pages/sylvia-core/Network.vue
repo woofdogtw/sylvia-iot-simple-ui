@@ -99,7 +99,7 @@
     </q-item>
   </q-list>
 
-  <q-dialog v-model="showAdd">
+  <q-dialog v-model="showAdd" @hide="onHide">
     <q-card style="width: 50%">
       <q-card-section>{{ $t('network.titleAdd') }}</q-card-section>
 
@@ -107,10 +107,22 @@
 
       <q-card-section class="scroll" style="max-height: 50vh">
         <q-card-section>
-          <q-input v-model="input.code" :label="$t('network.code')" />
+          <q-input
+            v-model="input.code"
+            :error="inputError.code !== ''"
+            :error-message="inputError.code"
+            :label="$t('network.code')"
+            @update:model-value="validateCode"
+          />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.hostUri" :label="$t('network.host')" />
+          <q-input
+            v-model="input.hostUri"
+            :error="inputError.hostUri !== ''"
+            :error-message="inputError.hostUri"
+            :label="$t('network.host')"
+            @update:model-value="validateHostUri"
+          />
         </q-card-section>
         <q-card-section>
           <q-input v-model="input.name" :label="$t('network.name')" />
@@ -119,21 +131,30 @@
           <q-input
             v-model="input.info"
             type="textarea"
+            :error="inputError.info !== ''"
+            :error-message="inputError.info"
             :label="$t('network.info')"
+            @update:model-value="validateInfo"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.ttl"
             type="number"
+            :error="inputError.ttl !== ''"
+            :error-message="inputError.ttl"
             :label="$t('network.ttl')"
+            @update:model-value="validateTtl"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.length"
             type="number"
+            :error="inputError.length !== ''"
+            :error-message="inputError.length"
             :label="$t('network.length')"
+            @update:model-value="validateLength"
           />
         </q-card-section>
       </q-card-section>
@@ -141,7 +162,13 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat v-close-popup @click="onAddOk">
+        <q-btn
+          color="primary"
+          flat
+          v-close-popup
+          :disable="!validateInput()"
+          @click="onAddOk"
+        >
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -149,7 +176,7 @@
     </q-card>
   </q-dialog>
 
-  <q-dialog v-model="showEdit">
+  <q-dialog v-model="showEdit" @hide="onHide">
     <q-card style="width: 50%">
       <q-card-section>{{ $t('network.titleEdit') }}</q-card-section>
 
@@ -172,7 +199,13 @@
           <q-input v-model="input.code" readonly :label="$t('network.code')" />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.hostUri" :label="$t('network.host')" />
+          <q-input
+            v-model="input.hostUri"
+            :error="inputError.hostUri !== ''"
+            :error-message="inputError.hostUri"
+            :label="$t('network.host')"
+            @update:model-value="validateHostUri"
+          />
         </q-card-section>
         <q-card-section>
           <q-input v-model="input.name" :label="$t('network.name')" />
@@ -181,21 +214,30 @@
           <q-input
             v-model="input.info"
             type="textarea"
+            :error="inputError.info !== ''"
+            :error-message="inputError.info"
             :label="$t('network.info')"
+            @update:model-value="validateInfo"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.ttl"
             type="number"
+            :error="inputError.ttl !== ''"
+            :error-message="inputError.ttl"
             :label="$t('network.ttl')"
+            @update:model-value="validateTtl"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.length"
             type="number"
+            :error="inputError.length !== ''"
+            :error-message="inputError.length"
             :label="$t('network.length')"
+            @update:model-value="validateLength"
           />
         </q-card-section>
         <q-card-section>
@@ -210,7 +252,13 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat v-close-popup @click="onEditOk">
+        <q-btn
+          color="primary"
+          flat
+          v-close-popup
+          :disable="!validateInput()"
+          @click="onEditOk"
+        >
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -321,11 +369,11 @@
 
   <NetworkSendData
     v-model="showSendData"
-    :networkId="input.networkId"
-    :unitId="input.unitId"
+    :network-id="input.networkId"
+    :unit-id="input.unitId"
   />
 
-  <NetworkStats v-model="showStats" :networkId="input.networkId" />
+  <NetworkStats v-model="showStats" :network-id="input.networkId" />
 </template>
 
 <script>
@@ -367,6 +415,13 @@ export default defineComponent({
         length: 0,
         password: '',
       },
+      inputError: {
+        code: '',
+        hostUri: '',
+        info: '',
+        ttl: '',
+        length: '',
+      },
       selectUnit: '',
       search: '',
       curPage: 1,
@@ -380,6 +435,7 @@ export default defineComponent({
       showSendData: false,
     };
   },
+
   methods: {
     onAddClick() {
       this.input = this.prepareInput();
@@ -401,11 +457,7 @@ export default defineComponent({
       if (this.input.name) {
         body.data.name = this.input.name;
       }
-      if (
-        this.input.info &&
-        this.input.info.startsWith('{') &&
-        this.input.info.endsWith('}')
-      ) {
+      if (this.$root.isJsonObject(this.input.info)) {
         try {
           let info = JSON.parse(this.input.info);
           body.data.info = info;
@@ -457,11 +509,7 @@ export default defineComponent({
           name: this.input.name,
         },
       };
-      if (
-        this.input.info &&
-        this.input.info.startsWith('{') &&
-        this.input.info.endsWith('}')
-      ) {
+      if (this.$root.isJsonObject(this.input.info)) {
         try {
           let info = JSON.parse(this.input.info);
           body.data.info = info;
@@ -557,6 +605,15 @@ export default defineComponent({
       this.curPage = page;
       this.getCount();
     },
+    onHide() {
+      this.inputError = {
+        code: '',
+        hostUri: '',
+        info: '',
+        ttl: '',
+        length: '',
+      };
+    },
     getCount() {
       let tokens = this.store.getTokens();
       if (!tokens.accessToken) {
@@ -592,6 +649,7 @@ export default defineComponent({
             self.curPage = self.data.totalPages;
           }
           if (self.data.count === 0) {
+            self.data.list = [];
             return;
           }
           self.getList();
@@ -725,18 +783,65 @@ export default defineComponent({
       return '';
     },
     prepareInput(data) {
-      return {
+      const input = {
         networkId: data ? data.networkId : '',
         code: data ? data.code : '',
         unitId: data ? data.unitId : '',
         unitCode: data ? data.unitCode : '',
         hostUri: data && data.hostUri ? data.hostUri : '',
         name: data && data.name ? data.name : '',
-        info: data && data.info ? JSON.stringify(data.info, null, '  ') : '',
+        info: data && data.info ? JSON.stringify(data.info, null, '  ') : '{}',
         ttl: (data && data.ttl) || 0,
         length: (data && data.length) || 0,
         password: '',
       };
+      this.validateCode(input.code);
+      this.validateHostUri(input.hostUri);
+      this.validateInfo(input.info);
+      this.validateTtl(input.ttl);
+      this.validateLength(input.length);
+      return input;
+    },
+    validateInput() {
+      return !(
+        this.inputError.code ||
+        this.inputError.hostUri ||
+        this.inputError.info ||
+        this.inputError.ttl ||
+        this.inputError.length
+      );
+    },
+    validateCode(value) {
+      const valid = this.$root.isCode(value);
+      this.inputError.code = valid ? '' : this.$t('inputError.code');
+      return valid;
+    },
+    validateHostUri(value) {
+      let valid =
+        this.$root.isURL(value) &&
+        (value.startsWith('amqp:') ||
+          value.startsWith('amqps:') ||
+          value.startsWith('mqtt:') ||
+          value.startsWith('mqtts:'));
+      this.inputError.hostUri = valid ? '' : this.$t('inputError.queueUri');
+      return valid;
+    },
+    validateInfo(value) {
+      const valid = this.$root.isJsonObject(value);
+      this.inputError.info = valid ? '' : this.$t('inputError.info');
+      return valid;
+    },
+    validateTtl(value) {
+      const valid = this.$root.isZeroPositiveInt(value);
+      this.inputError.ttl = valid ? '' : this.$t('inputError.zeroPositiveInt');
+      return valid;
+    },
+    validateLength(value) {
+      const valid = this.$root.isZeroPositiveInt(value);
+      this.inputError.length = valid
+        ? ''
+        : this.$t('inputError.zeroPositiveInt');
+      return valid;
     },
   },
 

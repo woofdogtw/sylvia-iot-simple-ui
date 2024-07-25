@@ -68,7 +68,7 @@
     </q-item>
   </q-list>
 
-  <q-dialog v-model="showAdd">
+  <q-dialog v-model="showAdd" @hide="onHide">
     <q-card style="width: 50%">
       <q-card-section>{{ $t('client.titleAdd') }}</q-card-section>
 
@@ -97,11 +97,20 @@
         <q-card-section>
           <q-input
             v-model="input.redirectUris"
+            :error="inputError.redirectUris !== ''"
+            :error-message="inputError.redirectUris"
             :label="$t('client.redirectUris')"
+            @update:model-value="validateRedirectUris"
           />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.scopes" :label="$t('client.scopes')" />
+          <q-input
+            v-model="input.scopes"
+            :error="inputError.scopes !== ''"
+            :error-message="inputError.scopes"
+            :label="$t('client.scopes')"
+            @update:model-value="validateScopes"
+          />
         </q-card-section>
         <q-card-section>
           <q-input v-model="input.name" :label="$t('client.name')" />
@@ -114,7 +123,13 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat v-close-popup @click="onAddOk">
+        <q-btn
+          color="primary"
+          flat
+          v-close-popup
+          :disable="!validateInput()"
+          @click="onAddOk"
+        >
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -122,7 +137,7 @@
     </q-card>
   </q-dialog>
 
-  <q-dialog v-model="showEdit">
+  <q-dialog v-model="showEdit" @hide="onHide">
     <q-card style="width: 50%">
       <q-card-section>{{ $t('client.titleEdit') }}</q-card-section>
 
@@ -138,11 +153,20 @@
         <q-card-section>
           <q-input
             v-model="input.redirectUris"
+            :error="inputError.redirectUris !== ''"
+            :error-message="inputError.redirectUris"
             :label="$t('client.redirectUris')"
+            @update:model-value="validateRedirectUris"
           />
         </q-card-section>
         <q-card-section>
-          <q-input v-model="input.scopes" :label="$t('client.scopes')" />
+          <q-input
+            v-model="input.scopes"
+            :error="inputError.scopes !== ''"
+            :error-message="inputError.scopes"
+            :label="$t('client.scopes')"
+            @update:model-value="validateScopes"
+          />
         </q-card-section>
         <q-card-section>
           <q-input v-model="input.name" :label="$t('client.name')" />
@@ -155,7 +179,13 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat v-close-popup @click="onEditOk">
+        <q-btn
+          color="primary"
+          flat
+          v-close-popup
+          :disable="!validateInput()"
+          @click="onEditOk"
+        >
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -285,6 +315,10 @@ export default defineComponent({
         name: '',
         image: null,
         genSecret: false,
+      },
+      inputError: {
+        redirectUris: '',
+        scopes: '',
       },
       userId: '',
       curPage: 1,
@@ -432,6 +466,12 @@ export default defineComponent({
       this.curPage = page;
       this.getCount();
     },
+    onHide() {
+      this.inputError = {
+        redirectUris: '',
+        scopes: '',
+      };
+    },
     getCount() {
       let tokens = this.store.getTokens();
       if (!tokens.accessToken) {
@@ -464,6 +504,7 @@ export default defineComponent({
             self.curPage = self.data.totalPages;
           }
           if (self.data.count === 0) {
+            self.data.list = [];
             return;
           }
           self.getList();
@@ -540,7 +581,7 @@ export default defineComponent({
         });
     },
     prepareInput(data) {
-      return {
+      const input = {
         clientId: data ? data.clientId : '',
         clientSecret: data ? data.clientSecret : null,
         redirectUris: data ? data.redirectUris.join(',') : '',
@@ -550,6 +591,41 @@ export default defineComponent({
         image: data && data.image ? data.image : '',
         genSecret: false,
       };
+      this.validateRedirectUris(input.redirectUris);
+      this.validateScopes(input.scopes);
+      return input;
+    },
+    validateInput() {
+      return !(this.inputError.redirectUris || this.inputError.scopes);
+    },
+    validateRedirectUris(value) {
+      const arr = this.str2arr(value);
+      let valid = arr.length > 0;
+      for (const item of arr) {
+        if (
+          !this.$root.isURL(item) ||
+          (!item.startsWith('http:') && !item.startsWith('https:'))
+        ) {
+          valid = false;
+          break;
+        }
+      }
+      this.inputError.redirectUris = valid
+        ? ''
+        : this.$t('inputError.clientRedirectUris');
+      return valid;
+    },
+    validateScopes(value) {
+      const arr = this.str2arr(value);
+      let valid = true;
+      for (const item of arr) {
+        if (!/^[a-z0-9]+([\.]{1}[a-z0-9])*$/.test(item)) {
+          valid = false;
+          break;
+        }
+      }
+      this.inputError.scopes = valid ? '' : this.$t('inputError.clientScopes');
+      return valid;
     },
     str2arr(str) {
       if (!str) {

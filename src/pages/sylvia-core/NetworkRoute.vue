@@ -67,7 +67,7 @@
     </q-item>
   </q-list>
 
-  <q-dialog v-model="showAdd">
+  <q-dialog v-model="showAdd" @hide="onHide">
     <q-card style="width: 50%">
       <q-card-section>{{ $t('networkRoute.titleAdd') }}</q-card-section>
 
@@ -80,8 +80,11 @@
           map-options
           option-label="code"
           option-value="networkId"
+          :error="inputError.networkId !== ''"
+          :error-message="inputError.networkId"
           :label="$t('networkRoute.network')"
           :options="data.networkList"
+          @update:model-value="validateNetworkId"
         />
         <q-select
           v-model="input.applicationId"
@@ -89,15 +92,24 @@
           map-options
           option-label="code"
           option-value="applicationId"
+          :error="inputError.applicationId !== ''"
+          :error-message="inputError.applicationId"
           :label="$t('networkRoute.application')"
           :options="data.applicationList"
+          @update:model-value="validateApplicationId"
         />
       </q-card-section>
 
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat v-close-popup @click="onAddOk">
+        <q-btn
+          color="primary"
+          flat
+          v-close-popup
+          :disable="!validateInput()"
+          @click="onAddOk"
+        >
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -161,6 +173,10 @@ export default defineComponent({
         applicationCode: '',
         networkId: '',
         networkCode: '',
+      },
+      inputError: {
+        applicationId: '',
+        networkId: '',
       },
       selectUnit: '',
       curPage: 1,
@@ -252,6 +268,12 @@ export default defineComponent({
       this.curPage = page;
       this.getCount();
     },
+    onHide() {
+      this.inputError = {
+        applicationId: '',
+        networkId: '',
+      };
+    },
     getCount() {
       let tokens = this.store.getTokens();
       if (!tokens.accessToken) {
@@ -284,6 +306,7 @@ export default defineComponent({
             self.curPage = self.data.totalPages;
           }
           if (self.data.count === 0) {
+            self.data.list = [];
             return;
           }
           self.getList();
@@ -459,7 +482,7 @@ export default defineComponent({
         });
     },
     prepareInput(data) {
-      return {
+      const input = {
         routeId: data ? data.routeId : '',
         unitId: data ? data.unitId : '',
         applicationId: data ? data.applicationId : '',
@@ -467,6 +490,26 @@ export default defineComponent({
         networkId: data ? data.networkId : '',
         networkCode: data ? data.networkCode : '',
       };
+      this.validateApplicationId(input.applicationId);
+      this.validateNetworkId(input.deviceId);
+      return input;
+    },
+    validateInput() {
+      return !(this.inputError.applicationId || this.inputError.networkId);
+    },
+    validateApplicationId(value) {
+      const valid = !!value;
+      this.inputError.applicationId = valid
+        ? ''
+        : this.$t('inputError.routeApplicationId');
+      return valid;
+    },
+    validateNetworkId(value) {
+      const valid = !!value;
+      this.inputError.networkId = valid
+        ? ''
+        : this.$t('inputError.routeNetworkId');
+      return valid;
     },
   },
 

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.3 - 2024-07-25
+
+### Changed
+
+- Add input validators for Sylvia-IoT core components.
+
+### Fixed
+
+- Clear list when data count API returns zero.
+- Fix adding devices when no unit is selected.
+
 ## 0.1.2 - 2024-07-24
 
 ### Changed
