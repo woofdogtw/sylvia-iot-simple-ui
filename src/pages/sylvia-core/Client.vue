@@ -344,8 +344,8 @@ export default defineComponent({
 
       let body = {
         data: {
-          redirectUris: this.str2arr(this.input.redirectUris),
-          scopes: this.str2arr(this.input.scopes),
+          redirectUris: this.$root.str2arr(this.input.redirectUris),
+          scopes: this.$root.str2arr(this.input.scopes),
         },
         credentials: this.input.genSecret,
       };
@@ -391,8 +391,8 @@ export default defineComponent({
 
       let body = {
         data: {
-          redirectUris: this.str2arr(this.input.redirectUris),
-          scopes: this.str2arr(this.input.scopes),
+          redirectUris: this.$root.str2arr(this.input.redirectUris),
+          scopes: this.$root.str2arr(this.input.scopes),
           name: this.input.name,
           image: this.input.image || null,
         },
@@ -599,7 +599,7 @@ export default defineComponent({
       return !(this.inputError.redirectUris || this.inputError.scopes);
     },
     validateRedirectUris(value) {
-      const arr = this.str2arr(value);
+      const arr = this.$root.str2arr(value);
       let valid = arr.length > 0;
       for (const item of arr) {
         if (
@@ -616,7 +616,7 @@ export default defineComponent({
       return valid;
     },
     validateScopes(value) {
-      const arr = this.str2arr(value);
+      const arr = this.$root.str2arr(value);
       let valid = true;
       for (const item of arr) {
         if (!/^[a-z0-9]+([\.]{1}[a-z0-9])*$/.test(item)) {
@@ -626,20 +626,6 @@ export default defineComponent({
       }
       this.inputError.scopes = valid ? '' : this.$t('inputError.clientScopes');
       return valid;
-    },
-    str2arr(str) {
-      if (!str) {
-        return [];
-      }
-      let splits = str.split(',');
-      let arr = [];
-      for (let i of splits) {
-        let s = i.trimStart().trimEnd();
-        if (s) {
-          arr.push(s);
-        }
-      }
-      return arr;
     },
   },
 

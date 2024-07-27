@@ -133,6 +133,20 @@ export default defineComponent({
     hex2str(hexStr) {
       return Buffer.from(hexStr, 'hex').toString() || hexStr;
     },
+    str2arr(str) {
+      if (!str) {
+        return [];
+      }
+      let splits = str.split(',');
+      let arr = [];
+      for (let i of splits) {
+        let s = i.trim();
+        if (s) {
+          arr.push(s);
+        }
+      }
+      return arr;
+    },
     timeStr(apiTime) {
       const t = new Date(apiTime);
       return isNaN(t) ? '' : strftime('%Y/%m/%d %H:%M:%S', t);

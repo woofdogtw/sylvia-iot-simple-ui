@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.4 - 2024-07-27
+
+### Changed
+
+- Add input validators for router components (WAN/LAN/wireless LAN).
+
 ## 0.1.3 - 2024-07-25
 
 ### Changed
