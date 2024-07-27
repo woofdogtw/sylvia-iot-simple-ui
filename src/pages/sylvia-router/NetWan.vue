@@ -101,7 +101,7 @@
     </q-card>
   </div>
 
-  <q-dialog v-model="showEdit">
+  <q-dialog v-model="showEdit" @hide="onHide">
     <q-card style="width: 50%">
       <q-card-section>{{ $t('router.titleEditWan') }}</q-card-section>
 
@@ -116,41 +116,57 @@
           option-value="value"
           :label="$t('router.wanType')"
           :options="showTypes"
+          @update:model-value="checkInput"
         />
         <q-card-section>
           <q-input
             v-model="input.static4.address"
             v-if="input.showType === 'typeStatic'"
+            :error="inputError.address !== ''"
+            :error-message="inputError.address"
             :label="$t('router.ip4addr')"
+            @update:model-value="validateAddress"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.static4.gateway"
             v-if="input.showType === 'typeStatic'"
+            :error="inputError.gateway !== ''"
+            :error-message="inputError.gateway"
             :label="$t('router.ip4gw')"
+            @update:model-value="validateGateway"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.static4.dns"
             v-if="input.showType === 'typeStatic'"
+            :error="inputError.dns !== ''"
+            :error-message="inputError.dns"
             :label="$t('router.ip4dns')"
+            @update:model-value="validateDns"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.pppoe.username"
             v-if="input.showType === 'typePppoe'"
+            :error="inputError.username !== ''"
+            :error-message="inputError.username"
             :label="$t('router.username')"
+            @update:model-value="validateUserName"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.pppoe.password"
             v-if="input.showType === 'typePppoe'"
+            :error="inputError.password !== ''"
+            :error-message="inputError.password"
             :label="$t('router.password')"
             :type="isPassword ? 'password' : 'text'"
+            @update:model-value="validatePassword"
           >
             <template v-slot:append>
               <q-icon
@@ -166,7 +182,13 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat v-close-popup @click="onEditOk">
+        <q-btn
+          color="primary"
+          flat
+          v-close-popup
+          :disable="!validateInput()"
+          @click="onEditOk"
+        >
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -177,6 +199,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { Validator } from 'ip-num/Validator';
 import { useStore } from 'stores/system';
 
 const TYPE_DISABLE = 'disable';
@@ -184,6 +207,10 @@ const TYPE_DHCP = 'dhcp';
 const TYPE_ETH = 'ethernet';
 const TYPE_PPPOE = 'pppoe';
 const TYPE_STATIC = 'static';
+const SHOW_TYPE_DISABLE = 'typeDisable';
+const SHOW_TYPE_DHCP = 'typeDhcp';
+const SHOW_TYPE_PPPOE = 'typePppoe';
+const SHOW_TYPE_STATIC = 'typeStatic';
 
 export default defineComponent({
   name: 'WanPage',
@@ -208,7 +235,7 @@ export default defineComponent({
       },
       input: {
         wanId: '',
-        show: 'typeDisable',
+        showType: SHOW_TYPE_DISABLE,
         static4: {
           address: '',
           gateway: '',
@@ -219,6 +246,13 @@ export default defineComponent({
           password: '',
         },
       },
+      inputError: {
+        address: '',
+        gateway: '',
+        dns: '',
+        username: '',
+        password: '',
+      },
       loading: false,
       showEdit: false,
       timer: null,
@@ -226,19 +260,19 @@ export default defineComponent({
       showTypes: [
         {
           label: this.$t('router.typeDisable'),
-          value: 'typeDisable',
+          value: SHOW_TYPE_DISABLE,
         },
         {
           label: this.$t('router.typeStatic'),
-          value: 'typeStatic',
+          value: SHOW_TYPE_STATIC,
         },
         {
           label: this.$t('router.typeDhcp'),
-          value: 'typeDhcp',
+          value: SHOW_TYPE_DHCP,
         },
         {
           label: this.$t('router.typePppoe'),
-          value: 'typePppoe',
+          value: SHOW_TYPE_PPPOE,
         },
       ],
     };
@@ -264,7 +298,7 @@ export default defineComponent({
           password: '',
         },
       };
-      if (data.showType === 'typeStatic') {
+      if (data.showType === SHOW_TYPE_STATIC) {
         if (data.conf.static4) {
           this.input.static4 = {
             address: data.conf.static4.address,
@@ -272,7 +306,7 @@ export default defineComponent({
             dns: data.conf.static4.dns.join(','),
           };
         }
-      } else if (data.showType === 'typePppoe') {
+      } else if (data.showType === SHOW_TYPE_PPPOE) {
         if (data.conf.pppoe) {
           this.input.pppoe = {
             username: data.conf.pppoe.username,
@@ -281,6 +315,7 @@ export default defineComponent({
         }
       }
       this.showEdit = true;
+      this.checkInput();
     },
     onEditOk() {
       let tokens = this.store.getTokens();
@@ -289,25 +324,18 @@ export default defineComponent({
       }
 
       let body = { data: { type: TYPE_DISABLE } };
-      if (this.input.showType === 'typeDhcp') {
+      if (this.input.showType === SHOW_TYPE_DHCP) {
         body.data.type = TYPE_ETH;
         body.data.type4 = TYPE_DHCP;
-      } else if (this.input.showType === 'typeStatic') {
+      } else if (this.input.showType === SHOW_TYPE_STATIC) {
         body.data.type = TYPE_ETH;
         body.data.type4 = TYPE_STATIC;
         body.data.static4 = {
           address: this.input.static4.address.trim(),
           gateway: this.input.static4.gateway.trim(),
-          dns: [],
+          dns: this.$root.str2arr(this.input.static4.dns),
         };
-        let inputDns = this.input.static4.dns.split(',');
-        for (let i = 0; i < inputDns.length; i++) {
-          const dns = inputDns[i].trim();
-          if (dns.length > 0) {
-            body.data.static4.dns.push(dns);
-          }
-        }
-      } else if (this.input.showType === 'typePppoe') {
+      } else if (this.input.showType === SHOW_TYPE_PPPOE) {
         body.data.type = TYPE_PPPOE;
         body.data.pppoe = {
           username: this.input.pppoe.username.toLowerCase(),
@@ -334,6 +362,15 @@ export default defineComponent({
           self.loading = false;
           self.$root.errorHandler(err, self.onEditOk);
         });
+    },
+    onHide() {
+      this.inputError = {
+        address: '',
+        gateway: '',
+        dns: '',
+        username: '',
+        password: '',
+      };
     },
     getSettings() {
       let tokens = this.store.getTokens();
@@ -367,18 +404,69 @@ export default defineComponent({
     },
     transShowType(data) {
       if (!data.conf || data.conf.type === TYPE_DISABLE) {
-        return 'typeDisable';
+        return SHOW_TYPE_DISABLE;
       } else if (data.conf.type === TYPE_PPPOE) {
-        return 'typePppoe';
+        return SHOW_TYPE_PPPOE;
       } else if (data.conf.type !== TYPE_ETH) {
-        return 'typeDisable';
+        return SHOW_TYPE_DISABLE;
       }
       if (data.conf.type4 === TYPE_STATIC) {
-        return 'typeStatic';
+        return SHOW_TYPE_STATIC;
       } else if (data.conf.type4 === TYPE_DHCP) {
-        return 'typeDhcp';
+        return SHOW_TYPE_DHCP;
       }
-      return 'typeDisable';
+      return SHOW_TYPE_DISABLE;
+    },
+    checkInput() {
+      this.validateAddress(this.input.static4.address);
+      this.validateGateway(this.input.static4.gateway);
+      this.validateDns(this.input.static4.dns);
+      this.validateUserName(this.input.pppoe.username);
+      this.validatePassword(this.input.pppoe.password);
+    },
+    validateInput() {
+      return !(
+        this.inputError.address ||
+        this.inputError.gateway ||
+        this.inputError.dns ||
+        this.inputError.username ||
+        this.inputError.password
+      );
+    },
+    validateAddress(value) {
+      let valid =
+        this.input.showType === SHOW_TYPE_STATIC
+          ? Validator.isValidIPv4CidrNotation(value)[0]
+          : true;
+      this.inputError.address = valid ? '' : this.$t('inputError.addressCidr4');
+    },
+    validateGateway(value) {
+      let valid =
+        this.input.showType === SHOW_TYPE_STATIC
+          ? value === '' || Validator.isValidIPv4String(value)[0]
+          : true;
+      this.inputError.gateway = valid ? '' : this.$t('inputError.addressV4');
+    },
+    validateDns(value) {
+      let valid = true;
+      if (this.input.showType === SHOW_TYPE_STATIC) {
+        const arr = this.$root.str2arr(value);
+        for (const item of arr) {
+          if (!Validator.isValidIPv4String(item)[0]) {
+            valid = false;
+            break;
+          }
+        }
+      }
+      this.inputError.dns = valid ? '' : this.$t('inputError.addressV4Many');
+    },
+    validateUserName(value) {
+      let valid = this.input.showType === SHOW_TYPE_PPPOE ? !!value : true;
+      this.inputError.username = valid ? '' : this.$t('inputError.empty');
+    },
+    validatePassword(value) {
+      let valid = this.input.showType === SHOW_TYPE_PPPOE ? !!value : true;
+      this.inputError.password = valid ? '' : this.$t('inputError.empty');
     },
   },
 

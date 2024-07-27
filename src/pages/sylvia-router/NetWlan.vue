@@ -60,7 +60,7 @@
     </q-card>
   </div>
 
-  <q-dialog v-model="showEdit">
+  <q-dialog v-model="showEdit" @hide="onHide">
     <q-card style="width: 50%">
       <q-card-section>{{ $t('router.titleEditWlan') }}</q-card-section>
 
@@ -71,28 +71,39 @@
           <q-checkbox
             v-model="input.enable"
             :label="$t('router.statusEnabled')"
+            @update:model-value="checkInput"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.conf.ssid"
             v-if="input.enable"
+            :error="inputError.ssid !== ''"
+            :error-message="inputError.ssid"
             :label="$t('router.ssid')"
+            @update:model-value="validateSsid"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.conf.channel"
             v-if="input.enable"
+            type="number"
+            :error="inputError.channel !== ''"
+            :error-message="inputError.channel"
             :label="$t('router.channel')"
+            @update:model-value="validateChannel"
           />
         </q-card-section>
         <q-card-section>
           <q-input
             v-model="input.conf.password"
             v-if="input.enable"
-            :type="isPassword ? 'password' : 'text'"
+            :error="inputError.password !== ''"
+            :error-message="inputError.password"
             :label="$t('router.password')"
+            :type="isPassword ? 'password' : 'text'"
+            @update:model-value="validatePassword"
           >
             <template v-slot:append>
               <q-icon
@@ -108,7 +119,13 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn color="primary" flat v-close-popup @click="onEditOk">
+        <q-btn
+          color="primary"
+          flat
+          v-close-popup
+          :disable="!validateInput()"
+          @click="onEditOk"
+        >
           {{ $t('buttons.ok') }}
         </q-btn>
         <q-btn flat v-close-popup>{{ $t('buttons.cancel') }}</q-btn>
@@ -153,6 +170,11 @@ export default defineComponent({
           password: '',
         },
       },
+      inputError: {
+        ssid: '',
+        channel: '',
+        password: '',
+      },
       loading: false,
       isPassword: true,
       showPassword: false,
@@ -166,7 +188,7 @@ export default defineComponent({
       this.isPassword = true;
       this.input.enable = false;
       this.input.conf.ssid = '';
-      this.input.conf.channel = 0;
+      this.input.conf.channel = 1;
       this.input.conf.password = '';
       if (settings) {
         this.input.enable = settings.enable;
@@ -177,6 +199,7 @@ export default defineComponent({
         }
         this.showEdit = true;
       }
+      this.checkInput();
     },
     onEditOk() {
       let tokens = this.store.getTokens();
@@ -220,6 +243,13 @@ export default defineComponent({
           self.$root.errorHandler(err, self.onEditOk);
         });
     },
+    onHide() {
+      this.inputError = {
+        ssid: '',
+        channel: '',
+        password: '',
+      };
+    },
     getSettings() {
       let tokens = this.store.getTokens();
       if (!tokens.accessToken) {
@@ -245,6 +275,41 @@ export default defineComponent({
           self.loading = false;
           self.$root.errorHandler(err, self.getList);
         });
+    },
+    checkInput() {
+      this.validateSsid(this.input.conf.ssid);
+      this.validateChannel(this.input.conf.channel);
+      this.validatePassword(this.input.conf.password);
+    },
+    validateInput() {
+      return !(
+        this.inputError.ssid ||
+        this.inputError.channel ||
+        this.inputError.password
+      );
+    },
+    validateSsid(value) {
+      let valid = this.input.enable ? !!value : true;
+      this.inputError.ssid = valid ? '' : this.$t('inputError.empty');
+    },
+    validateChannel(value) {
+      let valid = this.input.enable
+        ? this.$root.isZeroPositiveInt(value)
+        : true;
+      if (this.input.enable && valid) {
+        const intVal = parseInt(value);
+        if (intVal === 0 || intVal > 11) {
+          valid = false;
+        }
+      }
+      this.inputError.channel = valid ? '' : this.$t('inputError.wifiChannel');
+      return valid;
+    },
+    validatePassword(value) {
+      let valid = this.input.enable ? value.length >= 8 : true;
+      this.inputError.password = valid
+        ? ''
+        : this.$t('inputError.wifiPassword');
     },
   },
 

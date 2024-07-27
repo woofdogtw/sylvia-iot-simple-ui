@@ -395,7 +395,16 @@
     "routeApplicationId": "請選擇一個應用",
     "routeNetworkId": "請選擇一個網路",
     "routeDeviceId": "請選擇一個裝置",
-    "payloadHex": "必須是十六進制文字"
+    "payloadHex": "必須是十六進制文字",
+    "addressCidr4": "必須是 CIDR 格式 (192.168.1.1/24)",
+    "addressV4": "必須是 IPv4 地址 (192.168.1.1)",
+    "addressV4Many": "必須是 IPv4 地址 (192.168.1.1)。可用逗號隔開多個地址",
+    "dhcpHostInRange": "本機地址不可介於起始地址和結束地址",
+    "dhcpStartEnd": "起始地址不可大於結束地址",
+    "dhcpStartEndInMask": "必須和本機地址在相同遮罩",
+    "dhcpLease": "必須是 60 到 604800 的整數",
+    "wifiChannel": "必須是 1 到 11 的整數",
+    "wifiPassword": "至少八個字元"
   },
 
   "apiError": {

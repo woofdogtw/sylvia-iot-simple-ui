@@ -395,7 +395,16 @@
     "rotueApplicationId": "Please select an application",
     "routeNetworkId": "Please select a network",
     "rotueDeviceId": "Please select a device",
-    "payloadHex": "Must be hexadecimal string"
+    "payloadHex": "Must be hexadecimal string",
+    "addressCidr4": "Must be CIDR format (192.168.1.1/24)",
+    "addressV4": "Must be IPv4 address format (192.168.1.1)",
+    "addressV4Many": "Must be IPv4 address format (192.168.1.1). Use comma to separate multiple addresses",
+    "dhcpHostInRange": "Host address cannot between start address and end address",
+    "dhcpStartEnd": "Start address cannot bigger than end address",
+    "dhcpStartEndInMask": "Must in the same subnet of host address",
+    "dhcpLease": "Must be integer from 60 to 604800",
+    "wifiChannel": "Must be integer from 1 to 11",
+    "wifiPassword": "At least 8 characters"
   },
 
   "apiError": {
