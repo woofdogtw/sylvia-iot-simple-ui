@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.1.5 - 2024-08-30
+
+### Added
+
+- Add CSV download button for core and data pages.
+- Add dark mode theme.
+
+### Changed
+
+- Update nginx to 1.27.1.
+- Update dependencies.
+
+### Fixed
+
+- Fix select component display wrong values in:
+    - Send data dialog in the Application page
+    - Send data dialog in the Network page
+    - Add route dialog in the Device-Route page
+
 ## 0.1.4 - 2024-07-27
 
 ### Changed

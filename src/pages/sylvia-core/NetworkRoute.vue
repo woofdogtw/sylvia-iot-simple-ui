@@ -24,6 +24,10 @@
       <q-tooltip>{{ $t('buttons.refresh') }}</q-tooltip>
     </q-btn>
 
+    <q-btn flat icon="download" round @click="onCsvClick">
+      <q-tooltip>{{ $t('buttons.csv') }}</q-tooltip>
+    </q-btn>
+
     <q-btn
       flat
       icon="add"
@@ -224,6 +228,13 @@ export default defineComponent({
           self.loading = false;
           self.$root.errorHandler(err, self.onAddOk);
         });
+    },
+    onCsvClick() {
+      const url = `${this.$root.config.coremgr.base}/api/v1/network-route/list?limit=0&format=csv`;
+      const filename = `network-route-${this.$root.fileTimeStr(
+        new Date()
+      )}.csv`;
+      this.$root.downloadStream(url, filename, this.onCsvClick);
     },
     onDeleteClick(data) {
       this.input = this.prepareInput(data);

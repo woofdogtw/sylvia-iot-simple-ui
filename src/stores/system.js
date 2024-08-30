@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 export const useStore = defineStore('system', {
   state: () => ({
     language: '',
+    theme: '',
     accessToken: '',
     refreshToken: '',
     accountInfo: {},
@@ -12,6 +13,10 @@ export const useStore = defineStore('system', {
     getLanguage: (state) => () => {
       state.language = localStorage.getItem('language');
       return state.language;
+    },
+    getTheme: (state) => () => {
+      state.theme = localStorage.getItem('theme');
+      return state.theme;
     },
     getTokens: (state) => () => {
       state.accessToken = localStorage.getItem('accessToken');
@@ -30,6 +35,10 @@ export const useStore = defineStore('system', {
     setLanguage(language) {
       this.language = language;
       localStorage.setItem('language', language);
+    },
+    setTheme(theme) {
+      this.theme = theme;
+      localStorage.setItem('theme', theme);
     },
     setTokens(accessToken, refreshToken) {
       this.accessToken = accessToken;

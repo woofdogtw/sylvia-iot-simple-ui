@@ -50,12 +50,19 @@
   },
 
   "settings": {
-    "language": "Language"
+    "language": "Language",
+    "theme": "Theme"
   },
 
   "language": {
     "en-us": "English",
     "zh-tw": "正體中文"
+  },
+
+  "theme": {
+    "auto": "Auto",
+    "dark": "Dark",
+    "light": "Light"
   },
 
   "buttons": {
@@ -66,6 +73,7 @@
     "delete": "Delete",
     "detail": "Detail",
     "refresh": "Refresh",
+    "csv": "Download CSV",
     "stats": "Statistics",
     "sendData": "Send data",
     "send": "Send",
