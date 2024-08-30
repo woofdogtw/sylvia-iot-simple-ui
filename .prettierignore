@@ -3,4 +3,5 @@ babel.config.js
 jsconfig.json
 package.json
 quasar.config.js
+CHANGELOG.md
 README.md

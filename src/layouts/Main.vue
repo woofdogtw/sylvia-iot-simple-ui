@@ -297,6 +297,7 @@ import { useStore } from 'stores/system';
 import { version } from '../../package.json';
 
 const DEFAULT_LANGUAGE = 'en-us';
+const DEFAULT_THEME = 'auto';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -305,6 +306,22 @@ export default defineComponent({
     const language = this.store.getLanguage() || DEFAULT_LANGUAGE;
     this.store.setLanguage(language);
     this.$i18n.locale = language;
+
+    const theme = this.store.getTheme() || DEFAULT_THEME;
+    switch (theme) {
+      case 'dark':
+        this.store.setTheme(theme);
+        this.$q.dark.set(true);
+        break;
+      case 'light':
+        this.store.setTheme(theme);
+        this.$q.dark.set(false);
+        break;
+      default:
+        this.store.setTheme('auto');
+        this.$q.dark.set('auto');
+        break;
+    }
 
     if (this.$route.path === '/sylvia-core/redirect') {
       return;

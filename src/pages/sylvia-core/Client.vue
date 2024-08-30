@@ -13,6 +13,10 @@
       <q-tooltip>{{ $t('buttons.refresh') }}</q-tooltip>
     </q-btn>
 
+    <q-btn flat icon="download" round @click="onCsvClick">
+      <q-tooltip>{{ $t('buttons.csv') }}</q-tooltip>
+    </q-btn>
+
     <q-btn flat icon="add" round :disable="loading" @click="onAddClick">
       <q-tooltip>{{ $t('buttons.add') }}</q-tooltip>
     </q-btn>
@@ -378,6 +382,11 @@ export default defineComponent({
           self.loading = false;
           self.$root.errorHandler(err, self.onAddOk);
         });
+    },
+    onCsvClick() {
+      const url = `${this.$root.config.coremgr.base}/api/v1/client/list?limit=0&format=csv`;
+      const filename = `client-${this.$root.fileTimeStr(new Date())}.csv`;
+      this.$root.downloadStream(url, filename, this.onCsvClick);
     },
     onEditClick(data) {
       this.input = this.prepareInput(data);

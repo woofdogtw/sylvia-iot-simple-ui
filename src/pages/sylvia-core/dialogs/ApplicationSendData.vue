@@ -9,6 +9,7 @@
         <q-select
           v-model="deviceId"
           emit-value
+          map-options
           option-label="networkAddr"
           option-value="deviceId"
           :error="inputError.deviceId !== ''"

@@ -25,6 +25,10 @@
     <q-btn flat icon="refresh" round :disable="loading" @click="onRefreshClick">
       <q-tooltip>{{ $t('buttons.refresh') }}</q-tooltip>
     </q-btn>
+
+    <q-btn flat icon="download" round @click="onCsvClick">
+      <q-tooltip>{{ $t('buttons.csv') }}</q-tooltip>
+    </q-btn>
   </q-toolbar>
 
   <q-separator />
@@ -86,6 +90,13 @@ export default defineComponent({
   },
 
   methods: {
+    onCsvClick() {
+      const url = `${this.$root.config.data.base}/api/v1/application-dldata/list?limit=0&format=csv`;
+      const filename = `application-dldata-${this.$root.fileTimeStr(
+        new Date()
+      )}.csv`;
+      this.$root.downloadStream(url, filename, this.onCsvClick);
+    },
     onRefreshClick() {
       this.getCount();
     },

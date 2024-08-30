@@ -13,6 +13,52 @@ export default defineComponent({
   name: 'App',
 
   methods: {
+    /**
+     * To download API content to a local file.
+     *
+     * @param url {string} The FQDN URL.
+     * @param filename {string} The output file name.
+     * @param callback {function} The callback function to retry the request.
+     */
+    downloadStream(url, filename, callback) {
+      let tokens = this.store.getTokens();
+      if (!tokens.accessToken) {
+        return;
+      }
+
+      // Reference:
+      // https://medium.com/js-dojo/force-file-download-in-vuejs-using-axios-a7fe1b5dfe7b
+      let opts = {
+        method: 'GET',
+        url,
+        headers: {
+          Authorization: `Bearer ${tokens.accessToken}`,
+        },
+        responseType: 'blob',
+      };
+      let self = this;
+      this.$axios(opts)
+        .then((resp) => {
+          const url = window.URL.createObjectURL(new Blob([resp.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', filename);
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch((err) => {
+          self.errorHandler(err, callback);
+        });
+    },
+    /**
+     * The API error handler.
+     *
+     * - 401: try to refresh token and call `callback` again.
+     * - Others: prompt a dialog to show error message.
+     *
+     * @param err {Error}
+     * @param callback {function} The callback function to retry the request.
+     */
     errorHandler(err, callback) {
       let tokens = this.store.getTokens();
       let resp = err.response;
@@ -81,6 +127,9 @@ export default defineComponent({
         focus: 'ok',
       });
     },
+    /**
+     * Redirect to the sign-in page.
+     */
     signin() {
       let url =
         this.config.auth.base +
@@ -96,16 +145,37 @@ export default defineComponent({
       }
       window.location.href = url;
     },
+    /**
+     * Clear the token information.
+     */
     signout() {
       this.store.setTokens('', '');
       this.store.setAccountInfo({});
     },
+    /**
+     * To determine if the string is a valid code (in Sylvia-IoT).
+     *
+     * @param str {string} Input string.
+     * @returns {boolean}
+     */
     isCode(str) {
       return /^[A-Za-z0-9]{1}[A-Za-z0-9_-]*$/.test(str);
     },
+    /**
+     * To determine if the string is a valid hexadecimal string.
+     *
+     * @param str {string} Input string.
+     * @returns {boolean}
+     */
     isHex(str) {
       return str.length % 2 === 0 && /^[A-Fa-f0-9]+$/.test(str);
     },
+    /**
+     * To determine if the string is a valid JSON object (not array).
+     *
+     * @param str {string} Input string.
+     * @returns {boolean}
+     */
     isJsonObject(str) {
       try {
         const obj = JSON.parse(str);
@@ -114,6 +184,12 @@ export default defineComponent({
         return false;
       }
     },
+    /**
+     * To determine if the string is a valid URL.
+     *
+     * @param str {string} Input string.
+     * @returns {boolean}
+     */
     isURL(str) {
       let url;
       try {
@@ -127,12 +203,34 @@ export default defineComponent({
       }
       return !!url.protocol && (!!url.hostname || !!pathname);
     },
+    /**
+     * To determine if the string is zero or positive integer.
+     *
+     * @param str {string} Input string.
+     * @returns {boolean}
+     */
     isZeroPositiveInt(str) {
       return /^[0-9]+$/.test(str);
     },
+    /**
+     * Decode hexadecimal string to human-readable string. If the input is not
+     * a valid hex-string, it will be returned.
+     *
+     * For example `41` will be decoded as `A`.
+     *
+     * @param hexStr {string} Hexade
+     * @returns {string} Decoded string.
+     */
     hex2str(hexStr) {
       return Buffer.from(hexStr, 'hex').toString() || hexStr;
     },
+    /**
+     * Transfer comma-separated string into array. This function will trim
+     * spaces automatically.
+     *
+     * @param str {string} Comma-separated string.
+     * @returns {string[]} String array.
+     */
     str2arr(str) {
       if (!str) {
         return [];
@@ -147,9 +245,24 @@ export default defineComponent({
       }
       return arr;
     },
+    /**
+     * Transfer ISO string (from API) to `YYYY/mm/dd HH:MM:SS` format.
+     *
+     * @param apiTime {string} API time string
+     * @returns {string} File name time string.
+     */
     timeStr(apiTime) {
       const t = new Date(apiTime);
       return isNaN(t) ? '' : strftime('%Y/%m/%d %H:%M:%S', t);
+    },
+    /**
+     * Transfer `Date` to `YYYYmmddHHMMSS` format.
+     *
+     * @param dt {Date}
+     * @returns {string} File name time string.
+     */
+    fileTimeStr(dt) {
+      return strftime('%Y%m%d%H%M%S', dt);
     },
   },
 
