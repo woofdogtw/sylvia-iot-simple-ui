@@ -283,7 +283,7 @@ export default defineComponent({
         }
         return '';
       } else {
-        return dev.networkCode + '/' + dev.networkAddr;
+        return data.networkCode + '/' + data.networkAddr;
       }
     },
   },
