@@ -6,6 +6,7 @@
 
 - Update nginx to 1.27.3.
 - Update dependencies.
+- Update GitHub Actions for using Node.js v22.
 
 ### Fixed
 
