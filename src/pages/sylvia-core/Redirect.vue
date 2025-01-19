@@ -37,7 +37,7 @@ export default defineComponent({
       .then((resp) => {
         let data = resp.data;
         self.store.setTokens(data.access_token, data.refresh_token);
-        selt.$emit('refreshtoken');
+        self.$emit('refreshtoken');
         self.$router.replace({ query: null });
         self.$router.push(state);
       })

@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.6 - 2025-01-19
+
+### Changed
+
+- Update nginx to 1.27.3.
+- Update dependencies.
+
+### Fixed
+
+- Update dependencies and fix vulnerabilities.
+- Fix bugs:
+    - Emit refresh token in redirect page
+    - Send data dialog in the Application page
+    - Send data dialog in the Network page
+
 ## 0.1.5 - 2024-08-30
 
 ### Added
