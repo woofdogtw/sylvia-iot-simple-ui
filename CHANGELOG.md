@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.7 - 2025-07-01
+
+### Changed
+
+- Update nginx to 1.29.0.
+- Update dependencies.
+- Provided multi-architecture Docker images supporting both `amd64` and `arm64`.
+
 ## 0.1.6 - 2025-01-19
 
 ### Changed
