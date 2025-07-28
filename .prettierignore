@@ -1,7 +1,7 @@
-babel.config.js
 eslint.config.js
 jsconfig.json
 package.json
+postcss.config.js
 quasar.config.js
 CHANGELOG.md
 README.md
