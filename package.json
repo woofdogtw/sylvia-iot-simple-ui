@@ -1,9 +1,10 @@
 {
   "name": "sylvia-iot-simple-ui",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A simple UI for operating Sylvia-IoT platform.",
   "productName": "com.sylvia-iot.simple-ui",
   "author": "Chien-Hong Chan",
+  "type": "module",
   "private": true,
   "scripts": {
     "lint": "eslint -c ./eslint.config.js \"./src*/**/*.{js,cjs,mjs,vue}\"",
@@ -14,29 +15,31 @@
     "postinstall": "quasar prepare"
   },
   "dependencies": {
-    "@quasar/extras": "^1.17.0",
-    "axios": "^1.10.0",
-    "buffer": "^6.0.3",
+    "@quasar/extras": "1.17.0",
+    "axios": "1.11.0",
+    "buffer": "6.0.3",
     "ip-num": "1.5.1",
-    "pinia": "^3.0.3",
-    "qs": "^6.14.0",
-    "quasar": "^2.18.1",
-    "strftime": "^0.10.3",
-    "vue": "3.5.17",
-    "vue-echarts": "^7.0.3",
-    "vue-i18n": "^11.1.7",
-    "vue-router": "^4.5.1"
+    "pinia": "3.0.3",
+    "qs": "6.14.0",
+    "quasar": "2.18.2",
+    "strftime": "0.10.3",
+    "vue": "3.5.18",
+    "vue-echarts": "7.0.3",
+    "vue-i18n": "11.1.11",
+    "vue-router": "4.5.1"
   },
   "devDependencies": {
-    "@intlify/vite-plugin-vue-i18n": "^6.0.3",
-    "@quasar/app-vite": "^2.2.1",
-    "@vue/eslint-config-prettier": "^10.2.0",
-    "autoprefixer": "^10.4.21",
-    "eslint": "^9.30.0",
-    "eslint-plugin-vue": "^9.33.0",
-    "postcss": "^8.5.6",
-    "prettier": "^3.6.2",
-    "vite-plugin-checker": "0.9.3"
+    "@eslint/js": "9.32.0",
+    "@intlify/unplugin-vue-i18n": "6.0.8",
+    "@quasar/app-vite": "2.3.0",
+    "@vue/eslint-config-prettier": "10.2.0",
+    "autoprefixer": "10.4.21",
+    "eslint": "9.32.0",
+    "eslint-plugin-vue": "10.3.0",
+    "globals": "16.3.0",
+    "postcss": "8.5.6",
+    "prettier": "3.6.2",
+    "vite-plugin-checker": "0.10.1"
   },
   "engines": {
     "node": "^28 || ^26 || ^24 || ^22 || ^20",

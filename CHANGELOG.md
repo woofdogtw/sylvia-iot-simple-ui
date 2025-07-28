@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.8 - 2025-07-28
+
+### Changed
+
+- Update dependencies.
+- Update quasar init template files.
+
 ## 0.1.7 - 2025-07-01
 
 ### Changed

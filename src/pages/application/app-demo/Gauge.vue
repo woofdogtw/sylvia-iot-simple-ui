@@ -191,9 +191,9 @@ export default defineComponent({
             const d = self.data.list[i];
             let t = new Date(d.time);
             xData[i - index] = `${self.timePadding(
-              t.getHours()
+              t.getHours(),
             )}:${self.timePadding(t.getMinutes())}:${self.timePadding(
-              t.getSeconds()
+              t.getSeconds(),
             )}`;
             values[i - index] = d.rssi;
           }
